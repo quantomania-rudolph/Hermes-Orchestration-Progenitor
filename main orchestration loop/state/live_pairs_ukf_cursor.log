@@ -1,0 +1,6 @@
+=== HERMES Live Pairs UKF (Win orchestrator + WSL2 Cursor + Arc) === 
+Time: Thu 06/11/2026 17:02:30.72 
+NoLlama: http://127.0.0.1:8010/health 
+[env] HERMES_CURSOR_BACKEND=cli via WSL2 agent 
+S: Increase limits for faster responses You're out of usage. Switch to Auto, or ask your admin to increase your limit to continue.
+[FAIL] WSL Cursor agent CLI preflight 

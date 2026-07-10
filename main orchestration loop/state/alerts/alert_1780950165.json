@@ -1,0 +1,24 @@
+{
+  "timestamp": 1780950165.1150985,
+  "reason": "smoke test",
+  "objective": "BUILD THE HERMES MAIN ORCHESTRATION LOOP: autonomous code generation driven by pipeline_state.json with phase-gated tools, index-grounded context, and Cursor-backed implementation.",
+  "current_phase": "P0",
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 2000000,
+    "usd_used": 0.0,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {
+    "ok": true
+  }
+}

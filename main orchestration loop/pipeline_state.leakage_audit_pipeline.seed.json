@@ -1,0 +1,75 @@
+{
+  "core_objective": {
+    "text": "BUILD DATA LEAKAGE AUDIT PIPELINE for quant research: synthetic datasets with planted leakage traps (future labels, scaler fit on test, random train/test overlap), automated leakage detectors (shift tests, correlation spikes, purged split validators), scoring harness, and pytest suite proving detectors catch each trap class. No live trading.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "leakage_audit_pipeline",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/leakage_audit_pipeline/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config + synthetic data generators",
+      "intent": "config.py smoke flags. synthetic_data.py: generate_clean_series, future_label_trap, scaler_trap, overlap_trap datasets as pandas DataFrames with metadata tags.",
+      "target_files": ["config.py", "synthetic_data.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "leakage-audit-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Shift and correlation detectors",
+      "intent": "detectors.py: detect_future_shift(features, labels), detect_scaler_leakage(train_stats, test_stats), detect_index_overlap(train_idx, test_idx). Return structured LeakageFinding list.",
+      "target_files": ["detectors.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "leakage-audit-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Purged split validator",
+      "intent": "purged_validator.py: assert_purge_valid with embargo bars, chronological ordering, no train/test index intersection. Integrate with detectors.",
+      "target_files": ["purged_validator.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "leakage-audit-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Audit runner + report",
+      "intent": "audit_runner.py: run full audit on dataset tag, aggregate findings, score severity. reports/leakage_audit.json + md summary.",
+      "target_files": ["audit_runner.py", "reports/leakage_audit.json", "reports/leakage_audit.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "leakage-audit-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "pytest trap suite",
+      "intent": "tests/test_detectors.py: each trap must be detected (assert findings non-empty). tests/test_clean_pass.py: clean data passes. tests/test_purged_splits.py.",
+      "target_files": ["tests/test_detectors.py", "tests/test_clean_pass.py", "tests/test_purged_splits.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "leakage-audit-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2000000, "usd_used": 0.0, "usd_cap": 6.0, "floor_tokens": 100000, "floor_usd": 0.5 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

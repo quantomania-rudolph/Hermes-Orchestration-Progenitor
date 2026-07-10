@@ -1,0 +1,155 @@
+{
+  "core_objective": {
+    "text": "BUILD SKLEARN WALK-FORWARD FORECAST PIPELINE: lag features with leakage guard, expanding-window splits, Ridge regression OOS MAE/RMSE, metrics JSON, pytest. CSV fixture only.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "stress_sklearn_forecast",
+    "wipe_on_complete": false,
+    "authorized_dirs": [
+      "generated/stress_sklearn_forecast/"
+    ],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "config + series CSV",
+      "intent": "config.py smoke; sample_data/series.csv 365 daily value rows.",
+      "target_files": [
+        "generated/stress_sklearn_forecast/config.py",
+        "generated/stress_sklearn_forecast/sample_data/series.csv"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S002",
+      "title": "lag features + leakage guard",
+      "intent": "features.py: build_features with shift(1); assert_no_leakage(); LABEL next_return.",
+      "target_files": [
+        "generated/stress_sklearn_forecast/features.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S001"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S003",
+      "title": "walk-forward splits",
+      "intent": "splits.py: expanding_window_splits(min_train=60, test=20, step=20).",
+      "target_files": [
+        "generated/stress_sklearn_forecast/splits.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S002"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S004",
+      "title": "Ridge model",
+      "intent": "model.py: sklearn Ridge train_fold(X_train,y_train); predict OOS.",
+      "target_files": [
+        "generated/stress_sklearn_forecast/model.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S003"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S005",
+      "title": "OOS backtest metrics",
+      "intent": "backtest.py: run_backtest OOS only; reports/metrics.json with mae, rmse, oos_rows.",
+      "target_files": [
+        "generated/stress_sklearn_forecast/backtest.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S004"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S006",
+      "title": "pytest forecast",
+      "intent": "tests/test_forecast.py: finite MAE; oos_rows>0; leakage assert passes.",
+      "target_files": [
+        "generated/stress_sklearn_forecast/tests/test_forecast.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S005"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 15.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

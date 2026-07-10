@@ -1,0 +1,91 @@
+{
+  "core_objective": {
+    "text": "BUILD AN ADVANCED NEURAL-NETWORK EQUITY RESEARCH PIPELINE: ingest vault_equity OHLCV (FMP/PostgreSQL/CSV fallback), engineer lagged sequence features with strict anti-leakage (shift, walk-forward only), train a small PyTorch MLP or 1-layer LSTM for next-bar direction with expanding-window OOS folds, add calibration and dropout, backtest OOS-only with transaction-cost assumptions, and emit verified PNL JSON+MD plus model card. Research only — no live trading.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 5,
+    "max_step_growth_pct": 25,
+    "output_slug": "nn_vault_trader",
+    "wipe_on_complete": false,
+    "authorized_dirs": [],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Vault-equity data + sequence dataset builder",
+      "intent": "Create data_loader.py and dataset.py: load_bars from vault_equity contract; build_sequences(df, lookback=60) -> X,y with labels shifted so features never include future bars. CSV fallback to sample_data/aapl_5min_sample.csv.",
+      "target_files": ["data_loader.py", "dataset.py", "sample_data/aapl_5min_sample.csv"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "nn-stress-test"
+    },
+    {
+      "step_id": "S002",
+      "title": "Leakage guards + walk-forward split utilities",
+      "intent": "Create splits.py: expanding-window walk-forward indices (min_train=800, test=100, step=100), assert_no_leakage(X,y,ts) rejecting perfect future correlation, and normalize fit on train only per fold.",
+      "target_files": ["splits.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "nn-stress-test"
+    },
+    {
+      "step_id": "S003",
+      "title": "PyTorch MLP/LSTM model + train_walk_forward",
+      "intent": "Create nn_model.py: small MLP (64-32) OR LSTM(32) predicting next-bar return sign; train_walk_forward uses splits.py OOS folds only; save fold checkpoints under models/fold_*.pt; CPU-friendly; seed for reproducibility.",
+      "target_files": ["nn_model.py", "models/.gitkeep"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "nn-stress-test"
+    },
+    {
+      "step_id": "S004",
+      "title": "OOS backtest with costs + calibration report",
+      "intent": "Create backtest_nn.py: run ONLY OOS predictions; apply 1bp slippage; compute PNL, max DD, hit rate, Sharpe; write reports/pnl_report.json and reports/model_card.md documenting architecture, leakage controls, and fold metrics.",
+      "target_files": ["backtest_nn.py", "reports/pnl_report.json", "reports/model_card.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "nn-stress-test"
+    },
+    {
+      "step_id": "S005",
+      "title": "pytest verification suite",
+      "intent": "Add tests/test_nn_pipeline.py: pytest asserting finite OOS metrics, non-empty trade log, leakage assert passes on sample data, and nn_model trains at least one fold without CUDA.",
+      "target_files": ["tests/test_nn_pipeline.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "nn-stress-test"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 12.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.0
+  },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

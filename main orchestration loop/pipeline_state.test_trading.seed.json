@@ -1,0 +1,82 @@
+{
+  "core_objective": {
+    "text": "BUILD A MINIMAL RESEARCH-ONLY EQUITY STRATEGY PIPELINE: ingest OHLCV using the same FMP/PostgreSQL contract as vault_equity (1).ipynb, engineer RSI and MACD features, fit a simple linear regression signal (no live trading), backtest with walk-forward validation, and emit a verified PNL report. Goal is pipeline correctness, not profit.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 3,
+    "max_step_growth_pct": 25,
+    "output_slug": "simple_rsi_strategy",
+    "wipe_on_complete": true,
+    "authorized_dirs": [],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Vault-equity data loader with CSV/DB fallback",
+      "intent": "Create data_loader.py that mirrors vault_equity notebook settings (FMP stable API, equity_bars table, 5min interval). Load AAPL sample bars into a pandas DataFrame. If PostgreSQL is unreachable, fall back to sample_data/aapl_5min_sample.csv beside the module. Expose load_bars(symbol, interval) -> DataFrame with columns ts_utc, open, high, low, close, volume.",
+      "target_files": ["data_loader.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "test-trading-seed-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "RSI/MACD features and linear regression signal",
+      "intent": "Create signal_model.py: compute RSI(14) and MACD(12,26,9) from close prices, build feature matrix [rsi, macd, macd_signal, macd_hist], fit sklearn LinearRegression to predict next-bar return sign (classification via threshold). Expose train_model(df) -> model dict and predict_signals(df) -> DataFrame with signal column in {-1,0,1}. No external APIs.",
+      "target_files": ["signal_model.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "test-trading-seed-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Backtest verification and PNL report",
+      "intent": "Create backtest_pnl.py: walk-forward backtest using signal_model outputs, compute cumulative PNL, max drawdown, hit rate, Sharpe (annualized). Write reports/pnl_report.json and reports/pnl_report.md. Include verify() that asserts finite PNL, non-empty trade log, and passes pytest in tests/test_backtest_pnl.py.",
+      "target_files": ["backtest_pnl.py", "tests/test_backtest_pnl.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "test-trading-seed-v1"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 2000000,
+    "usd_used": 0.0,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

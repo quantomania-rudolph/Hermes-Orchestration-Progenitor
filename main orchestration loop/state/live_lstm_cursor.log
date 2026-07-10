@@ -1,0 +1,26 @@
+=== HERMES Live LSTM Optuna Vault Test ===
+Time: 2026-06-08T22:50:18-07:00
+T09=cursor | runtime=local | smoke=1 | seed=main orchestration loop/pipeline_state.test_lstm_optuna_vault.seed.json
+[resume] Keeping pipeline_state.json and existing artifacts
+[env] HERMES_CURSOR_BACKEND=cli (agent -p via WSL)
+WSL_AGENT_OK
+============================================================
+HERMES Main Orchestration Loop
+  mode: LIVE
+  seed: /mnt/c/Users/Rudol/Desktop/Hermes_Orchestration/main orchestration loop/pipeline_state.test_lstm_optuna_vault.seed.json
+  repo: /mnt/c/Users/Rudol/Desktop/Hermes_Orchestration
+============================================================
+[session] Resuming from existing pipeline_state.json
+[P1] Blueprint & Horizon
+[P1] Post-P5 entry — plan already reconciled; opening next window
+[P1] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P1] Post-P5 window retained: ['S001']
+[P1] Horizon window: ['S001']
+[P2] Implementation - step S001
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-a526ceaa8e0f4b5f
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S001
+[P2] Gauntlet S001: T13 ok=False
+[HALT] P2 gauntlet failed at T13: model skipped (Connection error.); deterministic=fail

@@ -1,0 +1,8 @@
+{
+  "table": "equity_bars",
+  "asset_class": "equity",
+  "intervals": ["5min", "15min"],
+  "required_columns": ["ts_utc", "open", "high", "low", "close", "volume", "symbol"],
+  "source_notebook": "vault_equity (1).ipynb",
+  "fmp_base": "https://financialmodelingprep.com/stable"
+}

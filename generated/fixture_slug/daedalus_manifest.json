@@ -1,0 +1,7 @@
+{
+  "slug": "fixture_slug",
+  "campaign_ready": true,
+  "has_tests": true,
+  "has_config": true,
+  "hermes_export": true
+}

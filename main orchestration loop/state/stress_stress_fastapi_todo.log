@@ -1,0 +1,113 @@
+============================================================
+HERMES Main Orchestration Loop
+  mode: LIVE
+  seed: /mnt/c/Users/Rudol/Desktop/Hermes_Orchestration/main orchestration loop/pipeline_state.test_stress_fastapi_todo.seed.json
+  repo: /mnt/c/Users/Rudol/Desktop/Hermes_Orchestration
+============================================================
+[P0] Genesis & Grounding
+[P0] Generated output bound to /mnt/c/Users/Rudol/Desktop/Hermes_Orchestration/generated/stress_fastapi_todo
+[P0] Index consistency warn: registry=194 disk_tracked=322 stale=23 missing=24 extra=152
+[P0] Cursor preflight: CURSOR_OK - Cursor CLI gate passed (WSL agent -p, model pin: composer-2.5)
+[P0] Exit contract met -> ready for P1
+[P1] Blueprint & Horizon
+[T26] PLAN_GENERATE skipped (dry-run or HERMES_SKIP_HERMES_BRAIN) — identity plan
+[P1] Identity plan mutation — skipping T10 co-verify
+[P1] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P1] T05 horizon strip: 6 visible step(s) for Hermes context
+[P1] Horizon window: ['S001', 'S002', 'S003']
+[P2] Implementation - step S001
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-b27f3bfbfd114e92
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S001
+[P2] Gauntlet S001: PASS ok=True
+[P3] Audit - step S001
+[P4] Integration - step S001
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S001 green
+[P2] Implementation - step S002
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-728a56811bc544dd
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S002
+[P2] Gauntlet S002: PASS ok=True
+[P3] Audit - step S002
+[P4] Integration - step S002
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S002 green
+[P2] Implementation - step S003
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-57f4cc06d34241bf
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S003
+[P2] Gauntlet S003: PASS ok=True
+[P3] Audit - step S003
+[P4] Integration - step S003
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S003 green
+[P5] Horizon Refresh - reason=window_exhausted
+[P5] T05 context wipe complete
+[P5] AST cache (skip rebuild): AST meta-summary: 127 files with public interfaces
+[P5] T01+T02 recite objective (603 chars)
+[P5] Hermes replan context: 3 visible steps, reason=window_exhausted
+[P5] Identity-only reconcile (HERMES_SKIP_HERMES_BRAIN)
+[P5] Identity plan mutation — skipping T10 co-verify
+[P1] Blueprint & Horizon
+[P1] Post-P5 entry — plan already reconciled; opening next window
+[P1] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P1] Post-P5 window refreshed: ['S003', 'S004', 'S005']
+[P1] Horizon window: ['S003', 'S004', 'S005']
+[session] Skipping S003 (already green)
+[P2] Implementation - step S004
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-a8adf1cdbabb4b6d
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S004
+[P2] Gauntlet S004: PASS ok=True
+[P3] Audit - step S004
+[P4] Integration - step S004
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S004 green
+[P2] Implementation - step S005
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-2325af03cc414762
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S005
+[P2] Gauntlet S005: PASS ok=True
+[P3] Audit - step S005
+[P4] Integration - step S005
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S005 green
+[P5] Horizon Refresh - reason=window_exhausted
+[P5] T05 context wipe complete
+[P5] AST cache (skip rebuild): AST meta-summary: 127 files with public interfaces
+[P5] T01+T02 recite objective (603 chars)
+[P5] Hermes replan context: 4 visible steps, reason=window_exhausted
+[P5] Identity-only reconcile (HERMES_SKIP_HERMES_BRAIN)
+[P5] Identity plan mutation — skipping T10 co-verify
+[P1] Blueprint & Horizon
+[P1] Post-P5 entry — plan already reconciled; opening next window
+[P1] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P1] Post-P5 window refreshed: ['S005', 'S006']
+[P1] Horizon window: ['S005', 'S006']
+[session] Skipping S005 (already green)
+[P2] Implementation - step S006
+[P2] RAG: 0 codebase hit(s), 5 doc snippet(s)
+[P2] T09 Cursor session status=finished runtime=cli run_id=cli-de6945074912494f
+[P2] T09 generation OK via cursor
+[P2] T10 review status=finished
+[P2] Running gauntlet for S006
+[P2] Gauntlet S006: PASS ok=True
+[P3] Audit - step S006
+[P4] Integration - step S006
+[P4] Reindex: Post-merge reindex skipped (HERMES_SKIP_INDEX_REBUILD)
+[P4] Step S006 green
+[P5] Horizon Refresh - reason=project_complete
+[P5] Project complete
+[final_review] All checks passed
+[session] PROJECT COMPLETE

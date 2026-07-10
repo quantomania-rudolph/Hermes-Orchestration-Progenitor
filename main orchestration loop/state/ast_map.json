@@ -1,0 +1,546 @@
+{
+  "interfaces": {
+    "ensure_hermes_model.py": [
+      "def main()"
+    ],
+    "hermes_embeddings.py": [
+      "def embed_texts(texts)",
+      "def embed_query(text)"
+    ],
+    "hermes_nollama.py": [
+      "def normalize_model_key(name)",
+      "def listed_model_ids()",
+      "def resolve_chat_model(requested)",
+      "def nollama_health()",
+      "def is_model_available(requested)"
+    ],
+    "hermes_orchestrator.py": [
+      "def query_local_rag(search_query)",
+      "def run_terminal_test(command)",
+      "def trigger_codebase_reindex()",
+      "def invoke_cursor_composer(code_context, error_log)",
+      "class DynamicToolRegistry",
+      "def run_hermes_loop(initial_goal)",
+      "def main()"
+    ],
+    "hermes_preflight.py": [
+      "class CheckResult",
+      "def record(name, status, detail)",
+      "def http_get_json(url, timeout)",
+      "def check_python_packages()",
+      "def check_paths()",
+      "def check_nollama_server()",
+      "def check_local_embeddings()",
+      "def check_nollama_chat()",
+      "def check_vectors_index()",
+      "def check_cursor_api()",
+      "def check_build_index_import()",
+      "def main()"
+    ],
+    "hermes_secrets.py": [
+      "def load_local_env()",
+      "def cursor_key_configured()"
+    ],
+    "generated/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "generated/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "generated/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/agents/creator_prompt.py": [
+      "class CreatorPromptInput",
+      "def build_creator_prompt(inp)"
+    ],
+    "main orchestration loop/agents/cursor_sdk.py": [
+      "class CursorSessionResult",
+      "class CursorSDK"
+    ],
+    "main orchestration loop/agents/hermes_local_creator.py": [
+      "class LocalCreatorResult",
+      "class HermesLocalCreator"
+    ],
+    "main orchestration loop/agents/reviewer_prompt.py": [
+      "class ReviewerPromptInput",
+      "def build_reviewer_prompt(inp)"
+    ],
+    "main orchestration loop/agents/sync_barrier.py": [
+      "class SyncBarrierTimeout",
+      "def file_hash(path)",
+      "def wait_for_files(repo_root, relative_paths)"
+    ],
+    "main orchestration loop/agents/verify_prompt.py": [
+      "def build_verify_prompt(objective, current_plan, proposed_plan, diff_sha256)"
+    ],
+    "main orchestration loop/config/loop_config.py": [
+      "def is_dry_run()",
+      "def is_skip_cursor()",
+      "def t09_runtime()",
+      "def cursor_runtime()"
+    ],
+    "main orchestration loop/models/fast_classifier.py": [
+      "class FastClassifier"
+    ],
+    "main orchestration loop/models/hermes.py": [
+      "class HermesResponse",
+      "class HermesModel"
+    ],
+    "main orchestration loop/orchestrator/bootstrap.py": [
+      "class HermesContext",
+      "def build_context(repo_root)"
+    ],
+    "main orchestration loop/orchestrator/gauntlet.py": [
+      "class GauntletResult",
+      "def run_p2_gauntlet(ctx)"
+    ],
+    "main orchestration loop/orchestrator/invariants.py": [
+      "def ensure_invariants(ctx, state)"
+    ],
+    "main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/orchestrator/session.py": [
+      "def run_master_session()",
+      "def main_entry(seed, repo)"
+    ],
+    "main orchestration loop/tools/common.py": [
+      "class Phase",
+      "class ToolError",
+      "class ContractViolation",
+      "class SystemHalt",
+      "def sha256_text(text)",
+      "def sha256_json(obj)",
+      "class ToolResult"
+    ],
+    "main orchestration loop/verification/run_all_verifications.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_all_tools_exist.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_connection_flow.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_cursor_sdk.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_fallback_ladder.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_greenlight_process.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_index_bridge.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_phase_tool_matrix.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_rag_quality.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_t03_state_manager.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_t04_mutation_guard.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_t09_qwen_delegate.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_t19_normalizer.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_t20_strike_breaker.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_tool_registry.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_tool_smoke.py": [
+      "def main()"
+    ],
+    "main orchestration loop/verification/verify_trading_pipeline.py": [
+      "def main()"
+    ],
+    "main orchestration loop/models/schema_contracts/base.py": [
+      "class SchemaViolation",
+      "class PlanVerifyVerdict",
+      "class TriageVerdict",
+      "class SemanticAlignResult"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p0_p1.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p1_p2.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p2_p3.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p3_p4.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p4_p5.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p5_done.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/transition_p5_p1.py": [
+      "def check_entry(state)",
+      "def assert_exit(state)"
+    ],
+    "main orchestration loop/orchestrator/contracts/__init__.py": [
+      "def register_all(controller)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase0_genesis.py": [
+      "def run_phase0(ctx)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase1_blueprint.py": [
+      "def run_phase1(ctx, state)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase2_implement.py": [
+      "class Phase2Result",
+      "def run_phase2_step(ctx, state, step_id)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase3_audit.py": [
+      "class Phase3Result",
+      "def run_phase3_step(ctx, state, step_id)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase4_integrate.py": [
+      "class Phase4Result",
+      "def run_phase4_step(ctx, state, step_id)"
+    ],
+    "main orchestration loop/orchestrator/phases/phase5_reconcile.py": [
+      "def run_phase5(ctx, state)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_10263755/generated/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_10263755/generated/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_13039231/main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_19569006/generated/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_19569006/generated/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_21706231/projects/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_25930902/projects/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_31966308/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_33418429/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_39329469/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_41847325/main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_43513233/generated/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_43513233/generated/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_43764739/projects/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_48285094/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_48935651/main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_51227728/projects/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_51227728/projects/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_53499741/projects/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_58069835/generated/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_58567917/projects/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_58567917/projects/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_58655285/main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_7066177/projects/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_71803640/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_81853287/generated/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_82271410/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_82338100/generated/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_83884417/projects/simple_rsi_strategy/backtest_pnl.py": [
+      "def run_backtest(df)",
+      "def write_reports(metrics)",
+      "def verify()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_83884417/projects/simple_rsi_strategy/tests/test_backtest_pnl.py": [
+      "def test_run_backtest_finite()",
+      "def test_verify_passes()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_8429115/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_86028562/main orchestration loop/orchestrator/main.py": [
+      "def main()"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_86248551/projects/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_9730830/projects/simple_rsi_strategy/signal_model.py": [
+      "def compute_rsi(close, period)",
+      "def compute_macd(close, fast, slow, signal)",
+      "def build_features(df)",
+      "def train_model(df)",
+      "def predict_signals(df, trained)"
+    ],
+    "main orchestration loop/state/file_snapshots/snap_997849/generated/simple_rsi_strategy/data_loader.py": [
+      "def load_bars(symbol, interval)"
+    ],
+    "main orchestration loop/tools/agents/t09_agent_creator.py": [
+      "class CreatorResult",
+      "class AgentCreator"
+    ],
+    "main orchestration loop/tools/agents/t10_agent_reviewer.py": [
+      "class ReviewResult",
+      "class AgentReviewer"
+    ],
+    "main orchestration loop/tools/agents/t11_cursor_gate.py": [
+      "class CursorStatus",
+      "class CursorGateResult",
+      "class CursorAvailabilityGate"
+    ],
+    "main orchestration loop/tools/context/index_bridge.py": [
+      "class IndexBuildResult",
+      "class ConsistencyReport",
+      "class IndexBridge"
+    ],
+    "main orchestration loop/tools/context/t06_ast_mapper.py": [
+      "class ASTMapper"
+    ],
+    "main orchestration loop/tools/context/t07_rag_provisioner.py": [
+      "class RAGQueryInput",
+      "class RAGProvisioner"
+    ],
+    "main orchestration loop/tools/context/t08_scope_boundary_compiler.py": [
+      "class AuthorizationBlock",
+      "class ScopeBoundaryCompiler"
+    ],
+    "main orchestration loop/tools/governance/output_paths.py": [
+      "def output_prefix(slug)",
+      "def infer_slug(state)",
+      "def is_external_generation(state)",
+      "def should_wipe_on_complete(state)",
+      "def bind_generated_output(state, repo_root)",
+      "def finalize_completed_session(ctx, state)"
+    ],
+    "main orchestration loop/tools/governance/t01_objective_envelope.py": [
+      "class ObjectiveEnvelope"
+    ],
+    "main orchestration loop/tools/governance/t02_objective_hash.py": [
+      "class ObjectiveHashVerifier"
+    ],
+    "main orchestration loop/tools/governance/t03_pipeline_state_manager.py": [
+      "class PipelineStateManager"
+    ],
+    "main orchestration loop/tools/governance/t04_plan_mutation_guard.py": [
+      "class PlanMutationGuard"
+    ],
+    "main orchestration loop/tools/governance/t05_horizon_controller.py": [
+      "class HorizonWindowController"
+    ],
+    "main orchestration loop/tools/meta/t24_tool_synthesizer.py": [
+      "class SynthesisResult",
+      "class ToolSynthesizer"
+    ],
+    "main orchestration loop/tools/meta/t25_tool_registry.py": [
+      "class ToolCallRejection",
+      "class ToolRegistry"
+    ],
+    "main orchestration loop/tools/orchestration/t26_model_router.py": [
+      "class TaskClass",
+      "class RoutedCall",
+      "class ModelRouter"
+    ],
+    "main orchestration loop/tools/orchestration/t27_tool_call_validator.py": [
+      "class ValidatedToolCall",
+      "class ToolCallValidator"
+    ],
+    "main orchestration loop/tools/orchestration/t28_paralysis_breaker.py": [
+      "class ParalysisBreaker"
+    ],
+    "main orchestration loop/tools/orchestration/t29_phase_controller.py": [
+      "class TransitionContract",
+      "class PhaseTransitionController"
+    ],
+    "main orchestration loop/tools/orchestration/t30_human_escalation.py": [
+      "class HumanEscalation"
+    ],
+    "main orchestration loop/tools/safety/t20_strike_breaker.py": [
+      "class StrikeBreaker"
+    ],
+    "main orchestration loop/tools/safety/t21_budget_accountant.py": [
+      "class BudgetConfig",
+      "class BudgetAccountant"
+    ],
+    "main orchestration loop/tools/safety/t22_cycle_detector.py": [
+      "class CycleDetector"
+    ],
+    "main orchestration loop/tools/safety/t23_state_journal.py": [
+      "class RecoveryAction",
+      "class JournalEntry",
+      "class StateJournal"
+    ],
+    "main orchestration loop/tools/verification/t12_compiler_check.py": [
+      "class CompileResult",
+      "class CompilerCheck"
+    ],
+    "main orchestration loop/tools/verification/t13_semantic_checker.py": [
+      "class SemanticResult",
+      "class SemanticChecker"
+    ],
+    "main orchestration loop/tools/verification/t14_diff_analyzer.py": [
+      "class DiffAuditResult",
+      "class DiffAnalyzer"
+    ],
+    "main orchestration loop/tools/verification/t15_git_snapshot.py": [
+      "class SnapshotHandle",
+      "class GitSnapshot"
+    ],
+    "main orchestration loop/tools/verification/t16_test_runner.py": [
+      "class TestResult",
+      "class TestRunner"
+    ],
+    "main orchestration loop/tools/verification/t17_fuzzer.py": [
+      "class FuzzResult",
+      "class DataFuzzer"
+    ],
+    "main orchestration loop/tools/verification/t18_triage_classifier.py": [
+      "class TriageResult",
+      "class FailureTriageClassifier"
+    ],
+    "main orchestration loop/tools/verification/t19_error_normalizer.py": [
+      "class NormalizedError",
+      "class ErrorNormalizer"
+    ],
+    "scripts/install_models/verify_models_installed.py": [
+      "def main()"
+    ],
+    "scripts/run_intel_gpu/nollama_setup.py": [
+      "class StepResult",
+      "class Audit",
+      "def check_install(audit)",
+      "def check_hermes_packages(audit)",
+      "def check_ports(audit)",
+      "def check_server(audit)",
+      "def fix_hermes_packages(audit)",
+      "def fix_gpu_install(audit)",
+      "def fix_stop_listeners(audit)",
+      "def fix_start_server(audit)",
+      "def fix_warmup(audit)",
+      "def run_audit()",
+      "def main()"
+    ],
+    "scripts/run_intel_gpu/test_nollama_integration.py": [
+      "def run_tests()",
+      "def main()"
+    ],
+    "scripts/setup_index/build_index.py": [
+      "def chunk_file(path)",
+      "def iter_code_files(roots)",
+      "def rel_path(path, roots)",
+      "def embed_texts(_unused_client, texts)",
+      "def load_index(output_path)",
+      "def save_index(output_path, registry, chunks)",
+      "def build_index(roots, output_path)",
+      "def main()"
+    ],
+    "scripts/setup_index/verify_index.py": [
+      "def main()"
+    ]
+  },
+  "file_count": 129
+}

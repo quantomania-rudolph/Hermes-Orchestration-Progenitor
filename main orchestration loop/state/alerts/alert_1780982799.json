@@ -1,0 +1,22 @@
+{
+  "timestamp": 1780982799.378564,
+  "reason": "Oscillation detected in P5",
+  "objective": "BUILD LSTM+OPTUNA VAULT-EQUITY RESEARCH PIPELINE per PIPELINE_SPEC_lstm_optuna_vault_trader.md v0.4: atomized PIT bars (atoms/bars_bt/CSV fallback), RSI/MACD/Bollinger/ATR signals with strict anti-leakage, LSTM with partial forgetting and residual skip, purged expanding-window K-fold with embargo, Optuna hyperparameter search on train-only inner val, OOS-only trading loop with costs, simulated portfolio, and verified PNL JSON+MD+model_card. Default HERMES_RESEARCH_SMOKE=1 for orchestrator runs. Research only \u2014 no live trading.",
+  "current_phase": "P4",
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": true
+  },
+  "budget": {
+    "tokens_used": 6000,
+    "token_cap": 2000000,
+    "usd_used": 0.11999999999999998,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

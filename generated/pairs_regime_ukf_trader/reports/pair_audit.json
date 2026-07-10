@@ -1,0 +1,78 @@
+{
+  "folds": [
+    {
+      "fold": 0,
+      "train_bars": 23,
+      "test_bars": 10,
+      "pairs": [
+        {
+          "symbol_a": "META",
+          "symbol_b": "MSFT",
+          "corr": 0.9999999989939325,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.999999999597573,
+          "beta": 0.9999999999999258,
+          "fold": 0
+        },
+        {
+          "symbol_a": "MSFT",
+          "symbol_b": "NVDA",
+          "corr": 0.9999999905513834,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.9999999962205534,
+          "beta": 0.9999999999999637,
+          "fold": 0
+        },
+        {
+          "symbol_a": "AMZN",
+          "symbol_b": "GOOGL",
+          "corr": 0.9999999869356094,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.9999999947742437,
+          "beta": 1.0000000000000187,
+          "fold": 0
+        }
+      ]
+    },
+    {
+      "fold": 1,
+      "train_bars": 35,
+      "test_bars": 10,
+      "pairs": [
+        {
+          "symbol_a": "META",
+          "symbol_b": "MSFT",
+          "corr": 0.9999999976724783,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.9999999990689913,
+          "beta": 0.9999999999999805,
+          "fold": 1
+        },
+        {
+          "symbol_a": "MSFT",
+          "symbol_b": "NVDA",
+          "corr": 0.9999999781246938,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.9999999912498775,
+          "beta": 0.9999999999999597,
+          "fold": 1
+        },
+        {
+          "symbol_a": "AMZN",
+          "symbol_b": "GOOGL",
+          "corr": 0.9999999700043946,
+          "coint_p": 0.0,
+          "tail_dep": 1.0,
+          "score": 0.9999999880017578,
+          "beta": 0.9999999999999992,
+          "fold": 1
+        }
+      ]
+    }
+  ]
+}

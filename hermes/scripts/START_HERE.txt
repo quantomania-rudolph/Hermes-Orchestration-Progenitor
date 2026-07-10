@@ -1,0 +1,49 @@
+HERMES — THREE SETUP FOLDERS
+=============================
+
+  scripts\install_models\     Download models (first-time, needs internet)
+  scripts\run_intel_gpu\        Start NoLlama on Intel Arc GPU (daily)
+  scripts\setup_index\          Build RAG codebase index
+
+FIRST TIME ON THIS PC
+---------------------
+1. winget install Microsoft.PowerShell   (if needed)
+2. scripts\install_models\00_install_everything.bat
+3. scripts\run_intel_gpu\01_start_nollama.bat
+4. scripts\run_intel_gpu\04_verify_gpu_access.bat
+5. scripts\setup_index\01_build_index.bat
+6. scripts\run_intel_gpu\06_hermes_startup.bat
+
+EVERY DAY
+---------
+  scripts\run_intel_gpu\03_daily_setup.bat
+  scripts\run_intel_gpu\07_hermes_daily.bat
+
+RUN HERMES
+----------
+  copy .env.example .env.local
+  (edit .env.local — paste CURSOR_API_KEY once; auto-loaded on every run)
+  HERMES_T09_RUNTIME=auto   (Cursor then Qwen when Windows bridge fails)
+  python hermes_orchestrator.py "your task"
+
+MAIN ORCHESTRATION LOOP (autonomous factory)
+  main orchestration loop\run\04_run_trading_test.bat live
+  (Qwen writes code when Cursor local bridge is blocked on Windows)
+
+QUICK CHECKS
+------------
+  scripts\install_models\04_verify_all_models_installed.bat
+  scripts\run_intel_gpu\04_verify_gpu_access.bat
+  scripts\setup_index\03_verify_index.bat
+  scripts\setup_index\04_verify_incremental_growth.bat
+  scripts\run_intel_gpu\check_hermes_model.bat
+
+INDEX SCOPE
+-----------
+  Default: indexes Hermes_Orchestration only (fast). Wider scan:
+    set HERMES_WORKSPACE_ROOTS=C:\path\one;C:\path\two
+
+TROUBLESHOOTING
+---------------
+  scripts\run_intel_gpu\00_stop_nollama.bat
+  scripts\run_intel_gpu\01_restart_nollama.bat

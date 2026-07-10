@@ -1,0 +1,105 @@
+{
+  "core_objective": {
+    "text": "BUILD REGIME-MODULATED PAIRS TRADING RESEARCH PIPELINE (research only, no live trading): discover cointegrated pairs via rolling Pearson/Spearman correlation, Engle-Granger cointegration, and Gaussian/Clayton copula tail-dependence scoring; estimate a 4-state anti-flicker Markov regime model (BULL, BEAR, VOLATILE, CRASH) on market features with minimum dwell time and posterior smoothing to prevent threshold flicker; run an Unscented Kalman Filter (UKF) on each pair's log-spread state [level, velocity] for entry/exit signals; modulate z-score entry/exit thresholds and position caps dynamically by regime (contract in BULL, expand in VOLATILE/CRASH); accelerate correlation/HMM/UKF batches on Intel Arc XPU (Core Ultra 9) via compute_device.py with CPU fallback; walk-forward purged backtest with transaction costs; emit verified PNL JSON+MD, regime timeline, pair-selection audit, and device_report.json. Smoke defaults under HERMES_RESEARCH_SMOKE.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 9,
+    "max_step_growth_pct": 25,
+    "output_slug": "pairs_regime_ukf_trader",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/pairs_regime_ukf_trader/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config, architecture spec, and multi-symbol data loader",
+      "intent": "Create config.py with HERMES_RESEARCH_SMOKE (LIMIT_BARS=1200, UNIVERSE=6 symbols, MAX_PAIRS=3, UKF_SMOKE=1). Create ARCHITECTURE.md documenting the four Markov regimes precisely: (1) BULL — market return > 0, realized vol below 60th pct, pairwise correlation stable (median |rho| drift < 0.05/20d), half-life of spread stable; trading: TIGHT thresholds (entry_z=1.6, exit_z=0.4), full position cap. (2) BEAR — negative drift, vol moderate (40-80th pct), correlation rising but not spiking; trading: MODERATE thresholds (entry_z=2.0, exit_z=0.5), 70% position cap. (3) VOLATILE — realized vol > 80th pct OR correlation instability (eigenvalue concentration spike) WITHOUT crash drawdown; trading: EXPANDED thresholds (entry_z=2.8, exit_z=0.8), 50% cap, require copula tail-dependence confirmation. (4) CRASH — rolling 5d market return < -5% OR VIX-proxy vol > 95th pct OR correlation breakdown (avg |rho| jump > 0.25 in 5d); trading: WIDEST thresholds (entry_z=3.5, exit_z=1.2), 25% cap, block new entries if regime confidence < 0.7. data_loader.py load_universe_bars() with PostgreSQL then sample_data/pairs_universe_bars.csv fallback (6 symbols, daily-ish bars). tests/test_loader.py.",
+      "target_files": ["config.py", "ARCHITECTURE.md", "data_loader.py", "sample_data/pairs_universe_bars.csv", "tests/test_loader.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Pair discovery: correlation, cointegration, copulas",
+      "intent": "pair_selection.py: rolling_pearson_matrix, rolling_spearman_matrix, engle_granger_cointegration(y,x) -> pvalue+beta, gaussian_copula_tail_dependence(u,v), clayton_copula_theta(u,v). rank_pairs(universe_returns) -> list of PairCandidate(symbol_a, symbol_b, corr, coint_p, tail_dep, score). Composite score = w1*|corr| + w2*(1-coint_p) + w3*tail_dep with configurable weights in config. Filter: |corr|>0.65, coint_p<0.05, min overlap bars. tests/test_pair_selection.py with synthetic cointegrated series.",
+      "target_files": ["pair_selection.py", "tests/test_pair_selection.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Anti-flicker 4-state Markov regime model",
+      "intent": "regime_markov.py: define RegimeState enum {BULL, BEAR, VOLATILE, CRASH}. Build feature vector per bar: market_return_5d, realized_vol_20d, corr_median_change_20d, drawdown_5d, eigen_concentration. Fit/filter 4-state Gaussian HMM OR explicit Markov chain with transition matrix penalized for rapid oscillation. Use compute_device.get_torch_device() to run emission covariance and forward-backward batches on Intel Arc XPU when available. Anti-flicker: (a) minimum dwell MIN_REGIME_BARS=5 before switch allowed, (b) posterior EMA smoothing alpha=0.15, (c) require P(new_state)>0.55 to commit switch. Expose fit_regime_model(features_df), filter_regime(features_df)->DataFrame with columns regime_label, regime_probs[4], regime_confidence. Persist default transition matrix and emission params in config. tests/test_regime_markov.py: planted regime sequence must not flicker more than 2 switches per 50 bars under noise.",
+      "target_files": ["regime_markov.py", "tests/test_regime_markov.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Regime-adaptive threshold modulator",
+      "intent": "threshold_modulator.py: REGIME_PARAMS dict mapping each RegimeState to {entry_z, exit_z, stop_z, position_cap_frac, allow_new_entries}. compute_thresholds(regime_label, regime_confidence) interpolates toward VOLATILE params when confidence low. Dynamic expand/contract: threshold_scale = base * (1 + vol_penalty + (1-confidence)*0.5) where vol_penalty higher in VOLATILE/CRASH. Expose modulate(spread_z, regime_row) -> {entry_z, exit_z, size_cap, block_entry bool}. tests/test_threshold_modulator.py asserts CRASH widest, BULL tightest, monotonic ordering.",
+      "target_files": ["threshold_modulator.py", "tests/test_threshold_modulator.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "Unscented Kalman Filter for spread dynamics",
+      "intent": "ukf_spread.py: state x=[log_spread, spread_velocity], observation y=log_spread, UKF predict/update with Merwe sigma points (alpha=1e-3, beta=2, kappa=0). Estimate hedge ratio from cointegration beta passed in. Batch UKF updates across pairs on Intel Arc XPU via torch when HERMES_USE_INTEL_XPU=auto|1. Expose UKFSpreadFilter class: update(price_a, price_b), properties spread_z (innovation / sqrt S), spread_level, velocity. Process noise Q and observation noise R configurable; R scales up in VOLATILE/CRASH via modulator hook. tests/test_ukf_spread.py: synthetic mean-reverting spread recovers level within tolerance.",
+      "target_files": ["ukf_spread.py", "tests/test_ukf_spread.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S006",
+      "title": "Pairs trading signal engine (UKF + regime thresholds)",
+      "intent": "signal_engine.py: for each selected pair, run UKF on log(price_a)-beta*log(price_b). Generate signals: enter long spread when spread_z < -entry_z, short when > entry_z; exit when |spread_z| < exit_z; stop when |spread_z| > stop_z. Gate entries with threshold_modulator (block in low-confidence CRASH). Position size = base_notional * position_cap_frac * min(1, confidence). Expose run_bar(pair, bar, regime_row, ukf) -> signal dict {side, size, reason}. tests/test_signal_engine.py with mocked regime rows.",
+      "target_files": ["signal_engine.py", "tests/test_signal_engine.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004", "S005"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S007",
+      "title": "Purged walk-forward backtest + costs",
+      "intent": "purged_splits.py: expanding-window splits with embargo (reuse pattern from quant_attention). backtest_pnl.py: walk-forward loop — refit pair selection on train, fit regime on train, OOS simulate with frozen pair list per fold. Apply slippage+spread costs. Track per-regime PNL attribution. Write reports/pnl_report.json, reports/regime_timeline.json, reports/pair_audit.json, reports/pnl_report.md. verify() asserts finite Sharpe, non-empty trades, regime labels in {BULL,BEAR,VOLATILE,CRASH}.",
+      "target_files": ["purged_splits.py", "backtest_pnl.py", "reports/pnl_report.json", "reports/regime_timeline.json", "reports/pair_audit.json", "reports/pnl_report.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S006"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    },
+    {
+      "step_id": "S008",
+      "title": "Pipeline CLI + end-to-end integration",
+      "intent": "run_pipeline.py CLI: --smoke runs full path under 120s. tests/test_pipeline_integration.py end-to-end smoke. tests/test_leakage.py assert all features shifted 1 bar minimum (no future pair scores in train).",
+      "target_files": ["run_pipeline.py", "tests/test_pipeline_integration.py", "tests/test_leakage.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S007"],
+      "status": "pending",
+      "provenance": "pairs-regime-ukf-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2500000, "usd_used": 0.0, "usd_cap": 12.0, "floor_tokens": 150000, "floor_usd": 0.75 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

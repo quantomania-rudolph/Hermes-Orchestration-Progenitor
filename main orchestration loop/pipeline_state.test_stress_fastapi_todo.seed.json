@@ -1,0 +1,155 @@
+{
+  "core_objective": {
+    "text": "BUILD A FASTAPI TODO REST API WITH TOKEN AUTH: sqlite storage, pydantic models, CRUD routes, OpenAPI docs, smoke limits (MAX_ITEMS=20), pytest TestClient verification. Research/demo only \u2014 no production deployment.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "stress_fastapi_todo",
+    "wipe_on_complete": false,
+    "authorized_dirs": [
+      "generated/stress_fastapi_todo/"
+    ],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "config + pydantic models",
+      "intent": "Pydantic Todo and User models; config.py with SQLITE_PATH, MAX_ITEMS=20 smoke, API_KEY from env.",
+      "target_files": [
+        "generated/stress_fastapi_todo/config.py",
+        "generated/stress_fastapi_todo/models.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S002",
+      "title": "sqlite database layer",
+      "intent": "database.py: sqlite3 context manager; init_db(), list_todos(), add_todo(), delete_todo(); no ORM.",
+      "target_files": [
+        "generated/stress_fastapi_todo/database.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S001"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S003",
+      "title": "token auth middleware",
+      "intent": "auth.py: HMAC API key from env; require_auth dependency; no bcrypt; constant-time compare.",
+      "target_files": [
+        "generated/stress_fastapi_todo/auth.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S002"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S004",
+      "title": "FastAPI app + routes",
+      "intent": "app.py: FastAPI GET/POST/DELETE /todos with auth; return JSON; tags for OpenAPI.",
+      "target_files": [
+        "generated/stress_fastapi_todo/app.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S003"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S005",
+      "title": "API manifest report",
+      "intent": "Write reports/openapi_smoke.json route list and README_API.md with curl examples.",
+      "target_files": [
+        "generated/stress_fastapi_todo/reports/openapi_smoke.json"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S004"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S006",
+      "title": "pytest API suite",
+      "intent": "tests/test_api.py: FastAPI TestClient; test auth reject, create todo, list, delete; pytest -q under 60s.",
+      "target_files": [
+        "generated/stress_fastapi_todo/tests/test_api.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S005"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 15.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

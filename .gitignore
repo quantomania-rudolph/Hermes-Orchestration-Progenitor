@@ -1,0 +1,21 @@
+# Local secrets
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# HERMES loop runtime (ephemeral per session)
+main orchestration loop/pipeline_state.json
+main orchestration loop/state/wal.jsonl
+main orchestration loop/state/file_snapshots/
+main orchestration loop/state/snapshots/
+
+# Large index artifacts (rebuild locally)
+codebase_vectors.json
+
+# Generated smoke tests
+generated/_t09_smoke_test/

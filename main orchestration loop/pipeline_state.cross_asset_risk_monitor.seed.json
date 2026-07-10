@@ -1,0 +1,75 @@
+{
+  "core_objective": {
+    "text": "BUILD CROSS-ASSET CORRELATION RISK MONITOR: load multi-asset return series, rolling correlation matrices, eigenvalue concentration (risk parity breach detector), stress scenario shocks, alert when correlation spike exceeds threshold, JSON risk dashboard report. Quant risk research tool — no trading.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "cross_asset_risk_monitor",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/cross_asset_risk_monitor/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config + multi-asset loader",
+      "intent": "config.py CORR_WINDOW, ALERT_THRESHOLD. data_loader.py load_returns_matrix() from sample_data/multi_asset_returns.csv.",
+      "target_files": ["config.py", "data_loader.py", "sample_data/multi_asset_returns.csv"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "cross-asset-risk-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Correlation engine",
+      "intent": "corr_engine.py rolling_corr_matrix, eigen_concentration(corr), pairwise_spike_detector.",
+      "target_files": ["corr_engine.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "cross-asset-risk-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Stress scenarios",
+      "intent": "stress.py apply_shock_scenarios(returns, shocks dict), compute portfolio loss proxy.",
+      "target_files": ["stress.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "cross-asset-risk-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Monitor + dashboard report",
+      "intent": "risk_monitor.py run_monitor() aggregates alerts. reports/risk_dashboard.json + md.",
+      "target_files": ["risk_monitor.py", "reports/risk_dashboard.json", "reports/risk_dashboard.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "cross-asset-risk-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "Tests",
+      "intent": "tests/test_corr_engine.py, tests/test_stress.py, tests/test_monitor.py with planted correlation spike.",
+      "target_files": ["tests/test_corr_engine.py", "tests/test_stress.py", "tests/test_monitor.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "cross-asset-risk-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2000000, "usd_used": 0.0, "usd_cap": 6.0, "floor_tokens": 100000, "floor_usd": 0.5 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

@@ -1,0 +1,25 @@
+{
+  "timestamp": 1780985828.3260992,
+  "reason": "Dirty phase contract (T29)",
+  "objective": "BUILD A MINIMAL RESEARCH-ONLY EQUITY STRATEGY PIPELINE: ingest OHLCV using the same FMP/PostgreSQL contract as vault_equity (1).ipynb, engineer RSI and MACD features, fit a simple linear regression signal (no live trading), backtest with walk-forward validation, and emit a verified PNL report. Goal is pipeline correctness, not profit.",
+  "current_phase": "P2",
+  "horizon": {
+    "window": [
+      "S001",
+      "S002"
+    ],
+    "cursor": "S001",
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 500,
+    "token_cap": 2000000,
+    "usd_used": 0.01,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

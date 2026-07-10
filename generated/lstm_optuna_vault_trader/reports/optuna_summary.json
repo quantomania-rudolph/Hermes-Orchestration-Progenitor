@@ -1,0 +1,52 @@
+{
+  "smoke": true,
+  "n_folds": 2,
+  "folds": [
+    {
+      "fold": 0,
+      "best_val_loss": 7.408876263070852e-05,
+      "n_trials": 3,
+      "method": "optuna",
+      "best_params": {
+        "lookback": 30,
+        "hidden_h1": 64,
+        "hidden_h2": 0,
+        "n_layers": 1,
+        "epochs": 5,
+        "dropout_l1": 0.11569319232340314,
+        "dropout_l2": 0.10994731168096124,
+        "lr": 0.0010835794582109016,
+        "weight_decay": 7.392538531872604e-05,
+        "batch_size": 128,
+        "use_skip": true,
+        "pfg_mode": "scheduled",
+        "loss": "huber",
+        "fold_reset": true
+      },
+      "params_path": "C:\\Users\\Rudol\\Desktop\\Hermes_Orchestration\\generated\\lstm_optuna_vault_trader\\models\\best_params_fold_0.json"
+    },
+    {
+      "fold": 1,
+      "best_val_loss": 0.000657412747386843,
+      "n_trials": 3,
+      "method": "optuna",
+      "best_params": {
+        "lookback": 30,
+        "hidden_h1": 128,
+        "hidden_h2": 0,
+        "n_layers": 1,
+        "epochs": 5,
+        "dropout_l1": 0.26989657244414145,
+        "dropout_l2": 0.021252603916542247,
+        "lr": 0.000172564173327919,
+        "weight_decay": 0.00016358262703585998,
+        "batch_size": 128,
+        "use_skip": true,
+        "pfg_mode": "scheduled",
+        "loss": "huber",
+        "fold_reset": true
+      },
+      "params_path": "C:\\Users\\Rudol\\Desktop\\Hermes_Orchestration\\generated\\lstm_optuna_vault_trader\\models\\best_params_fold_1.json"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "core_objective": {
+    "text": "BUILD YAML POLICY VALIDATOR CLI: schema for version+rules, severity enum, duplicate id detection, validation JSON report, pytest good/bad fixtures. No external services.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 5,
+    "max_step_growth_pct": 25,
+    "output_slug": "stress_yaml_policy",
+    "wipe_on_complete": false,
+    "authorized_dirs": [
+      "generated/stress_yaml_policy/"
+    ],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "config + policy fixture",
+      "intent": "config.py with SMOKE=1 defaults; sample_data/policy.yaml with version and 5 rules varying severity low/medium/high/critical. No scratch _run_* files.",
+      "target_files": [
+        "generated/stress_yaml_policy/config.py",
+        "generated/stress_yaml_policy/sample_data/policy.yaml"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S002",
+      "title": "policy schema",
+      "intent": "schema.py: PolicyDocument pydantic; Rule with id, severity in low/medium/high/critical.",
+      "target_files": [
+        "generated/stress_yaml_policy/schema.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S001"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S003",
+      "title": "validator engine",
+      "intent": "validator.py: validate_policy(yaml_path)->ValidationResult; duplicate id check.",
+      "target_files": [
+        "generated/stress_yaml_policy/validator.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S002"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S004",
+      "title": "CLI + report",
+      "intent": "cli.py: validate_policy CLI; write reports/validation.json; exit 1 on violations.",
+      "target_files": [
+        "generated/stress_yaml_policy/cli.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S003"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S005",
+      "title": "pytest validator",
+      "intent": "tests/test_validator.py ONLY (no .sh helpers): good fixture passes; inject bad severity fails; pytest -q under 60s. Forbidden: _run_* scratch files.",
+      "target_files": [
+        "generated/stress_yaml_policy/tests/test_validator.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S004"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 15.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

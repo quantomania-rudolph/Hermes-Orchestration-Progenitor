@@ -1,0 +1,75 @@
+{
+  "core_objective": {
+    "text": "BUILD VOLATILITY-TARGETING ALLOCATOR RESEARCH PIPELINE: estimate realized vol and regime (high/low vol states), dynamic leverage scaler targeting constant vol, apply to a baseline momentum signal on single-asset bars, simulate with drawdown brakes, emit risk reports (vol targeting error, turnover). Research only.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "vol_targeting_allocator",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/vol_targeting_allocator/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config + loader",
+      "intent": "config.py TARGET_VOL, LOOKBACK, smoke limits. data_loader.py + sample CSV. tests/test_loader.py.",
+      "target_files": ["config.py", "data_loader.py", "sample_data/aapl_5min_sample.csv", "tests/test_loader.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "vol-target-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Vol estimator + regime detector",
+      "intent": "vol_engine.py: realized_vol(series, window), regime_hmm_simple (threshold-based high/low), vol_target_scalar(target_vol, realized).",
+      "target_files": ["vol_engine.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "vol-target-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Baseline signal + allocator",
+      "intent": "signal.py simple momentum. allocator.py combine signal with vol scalar, drawdown brake, position bounds.",
+      "target_files": ["signal.py", "allocator.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "vol-target-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Simulation + reports",
+      "intent": "simulate.py NAV path, vol targeting error metric. reports/risk_report.json + md.",
+      "target_files": ["simulate.py", "reports/risk_report.json", "reports/risk_report.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "vol-target-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "Tests",
+      "intent": "tests/test_vol_engine.py, tests/test_allocator.py, tests/test_simulate.py.",
+      "target_files": ["tests/test_vol_engine.py", "tests/test_allocator.py", "tests/test_simulate.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "vol-target-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2000000, "usd_used": 0.0, "usd_cap": 6.0, "floor_tokens": 100000, "floor_usd": 0.5 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

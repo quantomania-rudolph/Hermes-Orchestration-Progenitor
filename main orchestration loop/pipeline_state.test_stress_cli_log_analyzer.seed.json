@@ -1,0 +1,138 @@
+{
+  "core_objective": {
+    "text": "BUILD CLI NGINX LOG ANALYZER: parse access.log fixture, compute status histogram and top paths, argparse CLI emitting JSON summary, pytest verification. No network.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 5,
+    "max_step_growth_pct": 25,
+    "output_slug": "stress_cli_log_analyzer",
+    "wipe_on_complete": false,
+    "authorized_dirs": [
+      "generated/stress_cli_log_analyzer/"
+    ],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "config + sample log",
+      "intent": "config.py; sample_data/access.log nginx combined format ~150 lines.",
+      "target_files": [
+        "generated/stress_cli_log_analyzer/config.py",
+        "generated/stress_cli_log_analyzer/sample_data/access.log"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S002",
+      "title": "log parser",
+      "intent": "parser.py: parse_line(line)->dict|None; regex ip status path bytes; skip malformed.",
+      "target_files": [
+        "generated/stress_cli_log_analyzer/parser.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S001"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S003",
+      "title": "log analyzer",
+      "intent": "analyzer.py: summarize(entries)->dict with status_counts, top_paths, error_rate, total_bytes.",
+      "target_files": [
+        "generated/stress_cli_log_analyzer/analyzer.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S002"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S004",
+      "title": "CLI entry",
+      "intent": "cli.py: argparse analyze_log path; print JSON summary; exit 0 on success.",
+      "target_files": [
+        "generated/stress_cli_log_analyzer/cli.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S003"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S005",
+      "title": "pytest CLI",
+      "intent": "tests/test_cli.py: analyze sample log; assert error_rate finite and top_paths non-empty.",
+      "target_files": [
+        "generated/stress_cli_log_analyzer/tests/test_cli.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S004"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 15.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

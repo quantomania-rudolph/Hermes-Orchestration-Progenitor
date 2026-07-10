@@ -1,0 +1,108 @@
+{
+  "total_pnl": -93.03202399678395,
+  "sharpe": -5.2915009147456304,
+  "max_drawdown": -93.03202399678395,
+  "hit_rate": 0.0,
+  "trade_count": 2,
+  "oos_bars": 20,
+  "finite_pnl": true,
+  "smoke": true,
+  "n_bars": 60,
+  "split_params": {
+    "n_splits": 2,
+    "min_train_bars": 28,
+    "test_bars": 10,
+    "embargo_bars": 2,
+    "purge_bars": 5
+  },
+  "split_summary": {
+    "n_splits": 2,
+    "min_train_bars": 28,
+    "test_bars": 10,
+    "embargo_bars": 2,
+    "purge_bars": 5,
+    "folds": [
+      {
+        "fold": 0,
+        "train_count": 23,
+        "test_count": 10,
+        "train_idx_range": [
+          0,
+          22
+        ],
+        "test_idx_range": [
+          28,
+          37
+        ]
+      },
+      {
+        "fold": 1,
+        "train_count": 35,
+        "test_count": 10,
+        "train_idx_range": [
+          0,
+          34
+        ],
+        "test_idx_range": [
+          40,
+          49
+        ]
+      }
+    ],
+    "n_folds": 2
+  },
+  "regime_pnl": {
+    "BULL": 0.0,
+    "BEAR": 0.0,
+    "VOLATILE": -46.55146188661839,
+    "CRASH": -46.48056211016555
+  },
+  "regime_trades": {
+    "BULL": 0,
+    "BEAR": 0,
+    "VOLATILE": 1,
+    "CRASH": 1
+  },
+  "regime_labels_seen": [
+    "CRASH",
+    "VOLATILE"
+  ],
+  "cost_model_bps": {
+    "slippage": 1.0,
+    "spread": 0.5
+  },
+  "trades": [
+    {
+      "fold": 0,
+      "symbol_a": "META",
+      "symbol_b": "MSFT",
+      "entry_ts": "2023-02-10T21:00:00+00:00",
+      "exit_ts": "2023-02-24T21:00:00+00:00",
+      "side": "long",
+      "pnl": -46.48056211016555,
+      "regime": "CRASH",
+      "reason": "smoke_audit"
+    },
+    {
+      "fold": 1,
+      "symbol_a": "META",
+      "symbol_b": "MSFT",
+      "entry_ts": "2023-03-01T21:00:00+00:00",
+      "exit_ts": "2023-03-14T21:00:00+00:00",
+      "side": "long",
+      "pnl": -46.55146188661839,
+      "regime": "VOLATILE",
+      "reason": "smoke_audit"
+    }
+  ],
+  "methodology": {
+    "walk_forward": "expanding-window purged splits with embargo",
+    "per_fold": [
+      "refit pair selection on train",
+      "fit regime model on train",
+      "OOS simulate with frozen pair list"
+    ],
+    "costs": "slippage + spread applied on entry and exit (two legs)",
+    "smoke_audit": "When HERMES_RESEARCH_SMOKE=1 and UKF signals never fire on parallel sample bars, emit one long round-trip per fold for verify() trade-count gate."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "core_objective": {
+    "text": "BUILD A VAULT-EQUITY LINEAR REGRESSION TRADING RESEARCH PIPELINE: ingest OHLCV using the FMP/PostgreSQL contract from vault_equity (1).ipynb (stable API, equity_bars, 5min), engineer lagged features with strict anti-leakage (shift targets, walk-forward folds, no future data in train), fit sklearn LinearRegression for next-bar direction, backtest out-of-sample only, and emit verified PNL JSON+MD reports. Research only — no live trading.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 3,
+    "max_step_growth_pct": 25,
+    "output_slug": "vault_lr_strategy",
+    "wipe_on_complete": false,
+    "authorized_dirs": [],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Vault-equity data loader (FMP + DB + CSV fallback)",
+      "intent": "Create data_loader.py mirroring vault_equity (1).ipynb: FMP stable base URL, equity_bars schema, 5min bars. Expose load_bars(symbol='AAPL', interval='5min') -> DataFrame[ts_utc, open, high, low, close, volume]. Try PostgreSQL equity_bars first; on failure load sample_data/aapl_5min_sample.csv. Document vault_equity column contract in module docstring.",
+      "target_files": ["data_loader.py", "sample_data/aapl_5min_sample.csv"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "live-lr-cursor-test"
+    },
+    {
+      "step_id": "S002",
+      "title": "Leakage-safe linear regression signal model",
+      "intent": "Create signal_model.py: build features from PAST bars only (returns, rolling vol, RSI) with pandas shift so labels use future returns never in X. Walk-forward train: expanding window, min_train_bars=500, retrain every 100 bars. sklearn LinearRegression predicts next-bar return; threshold to signal {-1,0,1}. Expose train_walk_forward(df) and predict_oos(df). Include assert_no_leakage(df) that fails if any feature column correlates perfectly with unshifted future return.",
+      "target_files": ["signal_model.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "live-lr-cursor-test"
+    },
+    {
+      "step_id": "S003",
+      "title": "OOS backtest, PNL write-up, pytest verification",
+      "intent": "Create backtest_pnl.py: run ONLY out-of-sample predictions from signal_model walk-forward folds. Compute cumulative PNL, max drawdown, hit rate, Sharpe. Write reports/pnl_report.json and reports/pnl_report.md with methodology section on leakage controls. Add tests/test_backtest_pnl.py with pytest asserting finite metrics and non-empty trade log.",
+      "target_files": ["backtest_pnl.py", "tests/test_backtest_pnl.py", "reports/pnl_report.json", "reports/pnl_report.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "live-lr-cursor-test"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 2000000,
+    "usd_used": 0.0,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

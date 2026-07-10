@@ -1,0 +1,22 @@
+{
+  "timestamp": 1781221657.6523223,
+  "reason": "Plan paralysis at P5: P5 reconcile produced empty horizon window (T28)",
+  "objective": "BUILD REGIME-MODULATED PAIRS TRADING RESEARCH PIPELINE (research only, no live trading): discover cointegrated pairs via rolling Pearson/Spearman correlation, Engle-Granger cointegration, and Gaussian/Clayton copula tail-dependence scoring; estimate a 4-state anti-flicker Markov regime model (BULL, BEAR, VOLATILE, CRASH) on market features with minimum dwell time and posterior smoothing to prevent threshold flicker; run an Unscented Kalman Filter (UKF) on each pair's log-spread state [level, velocity] for entry/exit signals; modulate z-score entry/exit thresholds and position caps dynamically by regime (contract in BULL, expand in VOLATILE/CRASH); walk-forward purged backtest with transaction costs; emit verified PNL JSON+MD, regime timeline, and pair-selection audit. CPU-safe smoke defaults under HERMES_RESEARCH_SMOKE.",
+  "current_phase": "P2",
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 5000,
+    "token_cap": 2000000,
+    "usd_used": 0.09999999999999999,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

@@ -1,0 +1,131 @@
+{
+  "core_objective": {
+    "text": "BUILD LSTM+OPTUNA VAULT-EQUITY RESEARCH PIPELINE per PIPELINE_SPEC_lstm_optuna_vault_trader.md v0.4: atomized PIT bars (atoms/bars_bt/CSV fallback), RSI/MACD/Bollinger/ATR signals with strict anti-leakage, LSTM with partial forgetting and residual skip, purged expanding-window K-fold with embargo, Optuna hyperparameter search on train-only inner val, OOS-only trading loop with costs, simulated portfolio, and verified PNL JSON+MD+model_card. Default HERMES_RESEARCH_SMOKE=1 for orchestrator runs. Research only — no live trading.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 9,
+    "max_step_growth_pct": 25,
+    "output_slug": "lstm_optuna_vault_trader",
+    "wipe_on_complete": false,
+    "authorized_dirs": ["generated/lstm_optuna_vault_trader/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Data loader + config + requirements + sample CSV",
+      "intent": "Under generated/lstm_optuna_vault_trader/: create config.py with HERMES_RESEARCH_SMOKE defaults (LIMIT_BARS=2000, N_SPLITS=2, OPTUNA_TRIALS=3, EPOCHS=5, LOOKBACK=30, MIN_TRAIN_BARS=120, TEST_BARS=40 when smoke=1). Create requirements.txt (pandas, numpy, torch, optuna, scikit-learn, pytest). Create data_loader.py: load_bars(symbol, interval) preferring alpha_atoms.atoms_5min_mkt then market_5min.equity_bars_bt then CSV sample_data/aapl_5min_sample.csv; derive bar_end_utc from ts_utc+5min if missing; asyncpg optional with 5s timeout; document FILE OF DATA vault cleaning lineage in docstring. Copy sample CSV with at least 500 rows.",
+      "target_files": ["config.py", "requirements.txt", "data_loader.py", "sample_data/aapl_5min_sample.csv"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S002",
+      "title": "Technical signals + leakage guards",
+      "intent": "Create signals.py: RSI(14), MACD line/signal/hist, bb_pct_b (clip, div-by-zero safe), atr_norm, return_lag1/5, rolling_vol, session_progress — all shifted 1 bar. build_feature_frame(df), assert_no_leakage(), FEATURE_COLS export. Import config.LOOKBACK for min row guard. No future data in features.",
+      "target_files": ["signals.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S003",
+      "title": "Sequence dataset + fold scaler",
+      "intent": "Create dataset.py: build_sequences(lookback=config.LOOKBACK) returning X,y_reg,y_cls,ts with alignment rule (features rows i-lookback+1..i predict label at i). FoldScaler fit on train fold only. Enforce minimum row count LOOKBACK+26+20.",
+      "target_files": ["dataset.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S004",
+      "title": "LSTM model + partial forgetting + node skip",
+      "intent": "Create partial_forgetting.py (PartialForgettingGate, fold_reset hidden zeroing) and nn_model.py: 1-2 layer LSTM batch_first, dropout, residual skip from last timestep, linear head for next_return regression. train_fold() with AdamW, grad clip 1.0, early stop, seed 42, CPU-safe. models/.gitkeep.",
+      "target_files": ["partial_forgetting.py", "nn_model.py", "models/.gitkeep"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S005",
+      "title": "Purged expanding-window K-fold splits",
+      "intent": "Create purged_kfold.py: expanding-window chronological splits with purge+embargo (embargo_bars=12). Use config.N_SPLITS, MIN_TRAIN_BARS, TEST_BARS. assert_purge_valid(train_idx, test_idx, timestamps). Export fold index tuples for optuna and backtest.",
+      "target_files": ["purged_kfold.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S006",
+      "title": "Optuna hyperparameter tuner",
+      "intent": "Create optuna_tuner.py: Optuna study on inner 85/15 train/val split within outer train fold only; OPTUNA_TRIALS from config; InMemoryStorage when smoke; save best_params_fold_k.json. Fallback to 3 hand-picked param sets if optuna import fails. Never use outer test fold during search.",
+      "target_files": ["optuna_tuner.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004", "S005"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S007",
+      "title": "Trading loop + portfolio simulator",
+      "intent": "Create trading_loop.py: map OOS regression predictions to positions {-1,0,1} with deadband and 1bp slippage+0.5bp spread costs. Create portfolio.py: simulate NAV from strategy returns, track turnover and drawdown. OOS fold predictions only.",
+      "target_files": ["trading_loop.py", "portfolio.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S006"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S008",
+      "title": "Backtest + PnL reports + run_pipeline CLI",
+      "intent": "Create backtest_pnl.py (OOS-only run_backtest, adaptive params when sample short), run_pipeline.py CLI entry. Write reports/pnl_report.json, pnl_report.md, model_card.md documenting leakage controls and LSTM architecture. Generate split_manifest.json and optuna_summary.json on run.",
+      "target_files": ["backtest_pnl.py", "run_pipeline.py", "reports/pnl_report.json", "reports/pnl_report.md", "reports/model_card.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S007"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    },
+    {
+      "step_id": "S009",
+      "title": "pytest verification suite",
+      "intent": "Create tests/test_lstm_pipeline.py ONLY (no shell scripts, no _run_* files): test load_bars sample, assert_no_leakage, purged split ordering, LSTM one-fold 2-epoch CPU smoke, run_backtest finite_pnl and oos_bars>0. Must finish in under 120s smoke. Forbidden: .sh/.bat helpers in tests/.",
+      "target_files": ["tests/test_lstm_pipeline.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S008"],
+      "status": "pending",
+      "provenance": "lstm-optuna-vault-live"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 4000000,
+    "usd_used": 0.0,
+    "usd_cap": 20.0,
+    "floor_tokens": 200000,
+    "floor_usd": 2.0
+  },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "core_objective": {
+    "text": "BUILD ATTENTION-BASED EQUITY SIGNAL RESEARCH PIPELINE: ingest OHLCV bars (CSV/DB fallback like vault_equity), engineer multi-horizon returns and technical features with strict 1-bar shift anti-leakage, train a lightweight self-attention encoder (CPU-safe, no GPU required) to predict next-bar direction, walk-forward purged validation, backtest with transaction costs, emit verified PNL JSON+MD and leakage audit report. Research only.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 7,
+    "max_step_growth_pct": 25,
+    "output_slug": "quant_attention_trader",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/quant_attention_trader/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config + data loader + sample CSV",
+      "intent": "Create config.py with HERMES_RESEARCH_SMOKE (LIMIT_BARS=800, EPOCHS=3, LOOKBACK=32). data_loader.py load_bars(symbol, interval) with PostgreSQL then sample_data/aapl_5min_sample.csv fallback. tests/test_loader.py.",
+      "target_files": ["config.py", "data_loader.py", "sample_data/aapl_5min_sample.csv", "tests/test_loader.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Feature frame + leakage guards",
+      "intent": "features.py: RSI, MACD, return lags, vol — all shifted 1 bar. build_feature_frame(df), assert_no_leakage(), FEATURE_COLS. tests/test_leakage.py with future-injection trap.",
+      "target_files": ["features.py", "tests/test_leakage.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Sequence dataset + purged splits",
+      "intent": "dataset.py build_sequences(lookback). purged_splits.py expanding-window with embargo. FoldScaler fit on train only.",
+      "target_files": ["dataset.py", "purged_splits.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Attention encoder model",
+      "intent": "attention_model.py: single-head scaled dot-product attention over lookback window, MLP head, train_fold() CPU-safe with AdamW, grad clip. tests/test_attention_model.py one-epoch smoke.",
+      "target_files": ["attention_model.py", "tests/test_attention_model.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "Walk-forward backtest + costs",
+      "intent": "backtest_pnl.py: OOS-only positions from model scores, slippage+spread costs, NAV curve, Sharpe, max DD. reports/pnl_report.json + md.",
+      "target_files": ["backtest_pnl.py", "reports/pnl_report.json", "reports/pnl_report.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    },
+    {
+      "step_id": "S006",
+      "title": "Run pipeline CLI + integration tests",
+      "intent": "run_pipeline.py CLI. tests/test_pipeline_integration.py: end-to-end smoke under 90s.",
+      "target_files": ["run_pipeline.py", "tests/test_pipeline_integration.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S005"],
+      "status": "pending",
+      "provenance": "quant-attention-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2000000, "usd_used": 0.0, "usd_cap": 8.0, "floor_tokens": 100000, "floor_usd": 0.5 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

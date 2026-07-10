@@ -1,0 +1,149 @@
+{
+  "api": {
+    "title": "Todo API",
+    "description": "Research/demo FastAPI todo REST API with API-key auth.",
+    "version": "1.0.0",
+    "base_url": "http://127.0.0.1:8000",
+    "smoke": true,
+    "max_items": 20
+  },
+  "auth": {
+    "type": "api_key",
+    "header": "X-API-Key",
+    "smoke_default": "dev-smoke-key",
+    "env_var": "API_KEY"
+  },
+  "openapi": {
+    "schema_url": "/openapi.json",
+    "docs_url": "/docs",
+    "redoc_url": "/redoc"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/todos",
+      "operation_id": "get_todos",
+      "tag": "todos",
+      "summary": "List all todos",
+      "auth_required": true,
+      "request_body": null,
+      "response_model": "Todo[]",
+      "success_status": 200,
+      "error_statuses": [401, 503]
+    },
+    {
+      "method": "POST",
+      "path": "/todos",
+      "operation_id": "create_todo",
+      "tag": "todos",
+      "summary": "Create a new todo",
+      "auth_required": true,
+      "request_body": {
+        "content_type": "application/json",
+        "schema": "TodoCreate",
+        "example": {
+          "title": "Buy milk"
+        }
+      },
+      "response_model": "Todo",
+      "success_status": 201,
+      "error_statuses": [400, 401, 409, 422, 503]
+    },
+    {
+      "method": "DELETE",
+      "path": "/todos/{todo_id}",
+      "operation_id": "remove_todo",
+      "tag": "todos",
+      "summary": "Delete a todo by id",
+      "auth_required": true,
+      "path_params": [
+        {
+          "name": "todo_id",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "request_body": null,
+      "response_model": "TodoDeleteResponse",
+      "success_status": 200,
+      "error_statuses": [401, 404, 503]
+    },
+    {
+      "method": "GET",
+      "path": "/openapi.json",
+      "operation_id": "openapi",
+      "tag": "meta",
+      "summary": "OpenAPI schema",
+      "auth_required": false,
+      "request_body": null,
+      "response_model": "object",
+      "success_status": 200,
+      "error_statuses": []
+    },
+    {
+      "method": "GET",
+      "path": "/docs",
+      "operation_id": "swagger_ui",
+      "tag": "meta",
+      "summary": "Swagger UI documentation",
+      "auth_required": false,
+      "request_body": null,
+      "response_model": "html",
+      "success_status": 200,
+      "error_statuses": []
+    },
+    {
+      "method": "GET",
+      "path": "/redoc",
+      "operation_id": "redoc",
+      "tag": "meta",
+      "summary": "ReDoc documentation",
+      "auth_required": false,
+      "request_body": null,
+      "response_model": "html",
+      "success_status": 200,
+      "error_statuses": []
+    }
+  ],
+  "curl_examples": [
+    {
+      "name": "list_todos",
+      "description": "List all todos (requires API key)",
+      "command": "curl -sS -H 'X-API-Key: dev-smoke-key' http://127.0.0.1:8000/todos"
+    },
+    {
+      "name": "create_todo",
+      "description": "Create a new todo",
+      "command": "curl -sS -X POST -H 'Content-Type: application/json' -H 'X-API-Key: dev-smoke-key' -d '{\"title\":\"Buy milk\"}' http://127.0.0.1:8000/todos"
+    },
+    {
+      "name": "delete_todo",
+      "description": "Delete todo by id",
+      "command": "curl -sS -X DELETE -H 'X-API-Key: dev-smoke-key' http://127.0.0.1:8000/todos/1"
+    },
+    {
+      "name": "auth_reject",
+      "description": "Request without API key returns 401",
+      "command": "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/todos"
+    },
+    {
+      "name": "openapi_schema",
+      "description": "Fetch OpenAPI schema (no auth)",
+      "command": "curl -sS http://127.0.0.1:8000/openapi.json"
+    },
+    {
+      "name": "swagger_docs",
+      "description": "Open Swagger UI (no auth)",
+      "command": "curl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/docs"
+    },
+    {
+      "name": "delete_todo_not_found",
+      "description": "Delete missing todo returns 404",
+      "command": "curl -sS -o /dev/null -w '%{http_code}' -X DELETE -H 'X-API-Key: dev-smoke-key' http://127.0.0.1:8000/todos/99999"
+    }
+  ],
+  "readme_api": {
+    "path": "README_API.md",
+    "markdown": "# Todo API\n\nResearch/demo FastAPI todo REST API with API-key auth.\n\n## Base URL\n\n`http://127.0.0.1:8000`\n\n## Authentication\n\nSend header `X-API-Key` on all `/todos` routes. Smoke default: `dev-smoke-key` (override with env `API_KEY`). Missing or invalid keys return **401**; unset server key returns **503**.\n\n## Routes\n\n| Method | Path | Auth | Success |\n|--------|------|------|---------|\n| GET | `/todos` | yes | 200 — `Todo[]` |\n| POST | `/todos` | yes | 201 — `Todo` |\n| DELETE | `/todos/{todo_id}` | yes | 200 — `{deleted, id}` |\n| GET | `/openapi.json` | no | 200 — OpenAPI schema |\n| GET | `/docs` | no | 200 — Swagger UI |\n| GET | `/redoc` | no | 200 — ReDoc |\n\n## curl examples\n\nList todos:\n\n```bash\ncurl -sS -H 'X-API-Key: dev-smoke-key' http://127.0.0.1:8000/todos\n```\n\nCreate todo:\n\n```bash\ncurl -sS -X POST -H 'Content-Type: application/json' -H 'X-API-Key: dev-smoke-key' \\\n  -d '{\"title\":\"Buy milk\"}' http://127.0.0.1:8000/todos\n```\n\nDelete todo:\n\n```bash\ncurl -sS -X DELETE -H 'X-API-Key: dev-smoke-key' http://127.0.0.1:8000/todos/1\n```\n\nAuth rejection (expect 401):\n\n```bash\ncurl -sS -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/todos\n```\n\nOpenAPI schema:\n\n```bash\ncurl -sS http://127.0.0.1:8000/openapi.json\n```\n\n## Run locally\n\n```bash\ncd generated/stress_fastapi_todo\nuvicorn app:app --reload\n```\n"
+  }
+}

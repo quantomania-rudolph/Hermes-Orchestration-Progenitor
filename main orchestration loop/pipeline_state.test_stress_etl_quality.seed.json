@@ -1,0 +1,155 @@
+{
+  "core_objective": {
+    "text": "BUILD CSV ETL QUALITY PIPELINE: ingest transactions CSV, pydantic schema validation, quality checks (nulls, duplicates, IQR outliers), JSON+MD quality report, pytest. Fixture data only.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "stress_etl_quality",
+    "wipe_on_complete": false,
+    "authorized_dirs": [
+      "generated/stress_etl_quality/"
+    ],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "config + sample CSV",
+      "intent": "config.py smoke limits; sample_data/transactions.csv with 200 rows id,amount,category,timestamp.",
+      "target_files": [
+        "generated/stress_etl_quality/config.py",
+        "generated/stress_etl_quality/sample_data/transactions.csv"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S002",
+      "title": "pydantic schema",
+      "intent": "schema.py: TransactionRow pydantic model with validators for amount>0 and non-null id.",
+      "target_files": [
+        "generated/stress_etl_quality/schema.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S001"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S003",
+      "title": "CSV ingest",
+      "intent": "ingest.py: load_csv(path)->DataFrame; collect row-level ValidationError list; no silent drops.",
+      "target_files": [
+        "generated/stress_etl_quality/ingest.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S002"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S004",
+      "title": "quality checks",
+      "intent": "quality.py: null_rate, duplicate_ids, amount IQR outliers; return dict of check_name->n_violations.",
+      "target_files": [
+        "generated/stress_etl_quality/quality.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S003"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S005",
+      "title": "quality report",
+      "intent": "report.py: write reports/quality_report.json and .md from quality.run_checks(); main entry.",
+      "target_files": [
+        "generated/stress_etl_quality/report.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S004"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    },
+    {
+      "step_id": "S006",
+      "title": "pytest quality",
+      "intent": "tests/test_quality.py: fixture CSV passes with 0 critical violations; finite metrics.",
+      "target_files": [
+        "generated/stress_etl_quality/tests/test_quality.py"
+      ],
+      "line_bounds": [
+        0,
+        -1
+      ],
+      "depends_on": [
+        "S005"
+      ],
+      "status": "pending",
+      "provenance": "stress-campaign"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 3000000,
+    "usd_used": 0.0,
+    "usd_cap": 15.0,
+    "floor_tokens": 150000,
+    "floor_usd": 1.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

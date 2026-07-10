@@ -1,0 +1,1 @@
+"""aux_2: quarantined helper for daedalus_quarantine/aux_2.pyQuarantined module synthesized by the local fallback engine."""from functools import lru_cache@lru_cache(maxsize=None)def cached_identity(x):    """Memoized passthrough used as a drop-in cache point."""    return x

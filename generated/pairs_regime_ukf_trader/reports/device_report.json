@@ -1,0 +1,8 @@
+{
+  "kind": "xpu",
+  "name": "Intel(R) Arc(TM) 140V GPU (16GB)",
+  "torch_device": "xpu:0",
+  "xpu_hardware_present": true,
+  "xpu_hardware_name": "Intel(R) Arc(TM) 140V GPU (16GB)",
+  "hermes_use_intel_xpu": "auto"
+}

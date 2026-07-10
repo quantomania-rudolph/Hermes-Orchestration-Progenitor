@@ -1,0 +1,112 @@
+{
+  "slug": "pairs_regime_ukf_trader",
+  "captured_at": "2026-06-11T22:10:03.593156+00:00",
+  "captured_by": "t_evolution_log_snapshot",
+  "pipeline": {
+    "current_phase": "P2",
+    "active_step_id": "S003",
+    "horizon_window": [
+      "S001",
+      "S002",
+      "S003"
+    ],
+    "budget_usd_used": 0.04,
+    "budget_usd_cap": 5.0,
+    "strike_ledger": {
+      "generated/pairs_regime_ukf_trader/regime_markov.py::err:40606929031fd7b0": 1
+    }
+  },
+  "plan_progress": {
+    "S001": "green",
+    "S002": "green",
+    "S003": "implemented",
+    "S004": "pending",
+    "S005": "pending",
+    "S006": "pending",
+    "S007": "pending",
+    "S008": "pending"
+  },
+  "file_inventory": {
+    "_debug_antiflicker.py": {
+      "lines": 55,
+      "sha16": "04e648ad163443aa",
+      "bytes": 1938
+    },
+    "_run_pytest.sh": {
+      "lines": 16,
+      "sha16": "a26c8136cedebd40",
+      "bytes": 323
+    },
+    "_run_tests_and_debug.py": {
+      "lines": 214,
+      "sha16": "9dbf73748a47ae03",
+      "bytes": 6975
+    },
+    "ARCHITECTURE.md": {
+      "lines": 160,
+      "sha16": "b6b41ed139e1c58c",
+      "bytes": 5475
+    },
+    "compute_device.py": {
+      "lines": 78,
+      "sha16": "e59e6f8fc841e290",
+      "bytes": 2343
+    },
+    "config.py": {
+      "lines": 68,
+      "sha16": "ca34a02d88d813c2",
+      "bytes": 1830
+    },
+    "data_loader.py": {
+      "lines": 189,
+      "sha16": "fae252e983247358",
+      "bytes": 6294
+    },
+    "gpu_kernels.py": {
+      "lines": 46,
+      "sha16": "3664372d12d09817",
+      "bytes": 1635
+    },
+    "pair_selection.py": {
+      "lines": 266,
+      "sha16": "d505740eb6f820c6",
+      "bytes": 8343
+    },
+    "regime_markov.py": {
+      "lines": 488,
+      "sha16": "82426f2fafa83775",
+      "bytes": 16120
+    },
+    "sample_data/pairs_universe_bars.csv": {
+      "lines": 361,
+      "sha16": "dcb75f6a6baef0b0",
+      "bytes": 27101
+    },
+    "tests/test_compute_device.py": {
+      "lines": 37,
+      "sha16": "d0bd9bbcccfaadf8",
+      "bytes": 932
+    },
+    "tests/test_loader.py": {
+      "lines": 34,
+      "sha16": "31630ca3f851600a",
+      "bytes": 998
+    },
+    "tests/test_pair_selection.py": {
+      "lines": 104,
+      "sha16": "e78e42888ae9db4b",
+      "bytes": 2870
+    },
+    "tests/test_regime_markov.py": {
+      "lines": 131,
+      "sha16": "7f04f312b997ded8",
+      "bytes": 4225
+    }
+  },
+  "totals": {
+    "production_py_lines": 1135,
+    "test_py_lines": 306,
+    "files_on_disk": 15,
+    "completion_pct_by_steps": 25
+  }
+}

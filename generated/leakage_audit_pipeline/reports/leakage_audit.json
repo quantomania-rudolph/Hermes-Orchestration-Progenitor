@@ -1,0 +1,206 @@
+{
+  "smoke": true,
+  "dataset_tags": [
+    "clean_series",
+    "future_label_trap",
+    "scaler_trap",
+    "overlap_trap"
+  ],
+  "audits": [
+    {
+      "dataset_tag": "clean_series",
+      "trap_class": "clean",
+      "has_leakage_expected": false,
+      "finding_count": 0,
+      "findings": [],
+      "severity": {
+        "max": 0.0,
+        "mean": 0.0,
+        "score": 0.0
+      },
+      "passed": true,
+      "detectors": [
+        "future_shift",
+        "scaler_leakage",
+        "index_overlap",
+        "purged_validator"
+      ]
+    },
+    {
+      "dataset_tag": "future_label_trap",
+      "trap_class": "future_label",
+      "has_leakage_expected": true,
+      "finding_count": 1,
+      "findings": [
+        {
+          "detector": "future_shift",
+          "trap_class": "future_label",
+          "severity": 1.0,
+          "message": "feature 'return_lag1' shows future-information leakage (correlation=1.0000, shift_gap=0.9528 (lagged_correlation=0.0472), exact_match_fraction=1.0000)",
+          "details": {
+            "feature": "return_lag1",
+            "correlation": 0.9999999999999998,
+            "abs_correlation": 0.9999999999999998,
+            "lagged_correlation": 0.04717717677926058,
+            "shift_gap": 0.9528228232207392,
+            "exact_match_fraction": 1.0,
+            "corr_threshold": 0.9,
+            "shift_margin": 0.15,
+            "match_threshold": 0.95,
+            "n_rows": 116
+          }
+        }
+      ],
+      "severity": {
+        "max": 1.0,
+        "mean": 1.0,
+        "score": 1.0
+      },
+      "passed": true,
+      "detectors": [
+        "future_shift",
+        "scaler_leakage",
+        "index_overlap",
+        "purged_validator"
+      ]
+    },
+    {
+      "dataset_tag": "scaler_trap",
+      "trap_class": "scaler_fit",
+      "has_leakage_expected": true,
+      "finding_count": 1,
+      "findings": [
+        {
+          "detector": "scaler_leakage",
+          "trap_class": "scaler_fit",
+          "severity": 0.75,
+          "message": "train and test feature stats are both near zero-mean/unit-variance, consistent with scaler fit on combined data",
+          "details": {
+            "normalized_columns": [
+              "return_lag1"
+            ],
+            "normalized_fraction": 0.5,
+            "min_normalized_fraction": 0.5,
+            "mean_threshold": 0.2,
+            "std_tolerance": 0.25,
+            "columns": {
+              "return_lag1": {
+                "train_mean": 0.06757094612231483,
+                "train_std": 0.98961808526122,
+                "test_mean": -0.17674079886434152,
+                "test_std": 0.9704053966878509,
+                "train_normalized": true,
+                "test_normalized": true
+              },
+              "return_lag2": {
+                "train_mean": 0.10654010539599361,
+                "train_std": 0.9931183119799127,
+                "test_mean": -0.2862017211292179,
+                "test_std": 0.7516764404742358,
+                "train_normalized": true,
+                "test_normalized": false
+              }
+            }
+          }
+        }
+      ],
+      "severity": {
+        "max": 0.75,
+        "mean": 0.75,
+        "score": 0.75
+      },
+      "passed": true,
+      "detectors": [
+        "future_shift",
+        "scaler_leakage",
+        "index_overlap",
+        "purged_validator"
+      ]
+    },
+    {
+      "dataset_tag": "overlap_trap",
+      "trap_class": "index_overlap",
+      "has_leakage_expected": true,
+      "finding_count": 4,
+      "findings": [
+        {
+          "detector": "index_overlap",
+          "trap_class": "index_overlap",
+          "severity": 0.13043478260869565,
+          "message": "train/test index overlap detected (3 shared indices)",
+          "details": {
+            "overlap_count": 3,
+            "overlap_fraction_of_test": 0.13043478260869565,
+            "overlapping_indices": [
+              8,
+              61,
+              71
+            ],
+            "overlapping_indices_truncated": false,
+            "train_size": 94,
+            "test_size": 23
+          }
+        },
+        {
+          "detector": "purged_validator",
+          "trap_class": "index_overlap",
+          "severity": 1.0,
+          "message": "train max index 93 must be strictly before test min index 8",
+          "details": {
+            "train_max": 93,
+            "test_min": 8,
+            "embargo_bars": 2
+          }
+        },
+        {
+          "detector": "purged_validator",
+          "trap_class": "index_overlap",
+          "severity": 1.0,
+          "message": "train max timestamp must be strictly before test min timestamp",
+          "details": {
+            "train_max_ts": "2020-01-02 17:30:00",
+            "test_min_ts": "2020-01-02 10:25:00"
+          }
+        },
+        {
+          "detector": "purged_validator",
+          "trap_class": "index_overlap",
+          "severity": 1.0,
+          "message": "embargo gap -86 bars is less than required 2",
+          "details": {
+            "purge_gap_bars": -86,
+            "required_embargo_bars": 2,
+            "train_max": 93,
+            "test_min": 8,
+            "test_max": 115
+          }
+        }
+      ],
+      "severity": {
+        "max": 1.0,
+        "mean": 0.782608695652174,
+        "score": 1.0
+      },
+      "passed": true,
+      "detectors": [
+        "future_shift",
+        "scaler_leakage",
+        "index_overlap",
+        "purged_validator"
+      ]
+    }
+  ],
+  "summary": {
+    "datasets_audited": 4,
+    "total_findings": 6,
+    "max_severity": 1.0,
+    "mean_severity": 0.8134057971014492,
+    "score": 1.0,
+    "all_passed": true,
+    "trap_classes_detected": [
+      "future_label",
+      "index_overlap",
+      "scaler_fit"
+    ]
+  }
+}

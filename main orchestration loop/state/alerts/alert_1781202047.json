@@ -1,0 +1,29 @@
+{
+  "timestamp": 1781202047.4220054,
+  "reason": "P3 audit blocked on S005 (strike-out or patch exhaustion)",
+  "objective": "BUILD DATA LEAKAGE AUDIT PIPELINE for quant research: synthetic datasets with planted leakage traps (future labels, scaler fit on test, random train/test overlap), automated leakage detectors (shift tests, correlation spikes, purged split validators), scoring harness, and pytest suite proving detectors catch each trap class. No live trading.",
+  "current_phase": "P2",
+  "horizon": {
+    "window": [
+      "S003",
+      "S004",
+      "S005"
+    ],
+    "cursor": "S003",
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 4000,
+    "token_cap": 2000000,
+    "usd_used": 0.08,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {
+    "generated/leakage_audit_pipeline/tests/test_detectors.py::err:1debc403a8d61317": 1,
+    "generated/leakage_audit_pipeline/tests/test_detectors.py::patch-gauntlet:T14-HYGIENE": 1
+  },
+  "extra": {}
+}

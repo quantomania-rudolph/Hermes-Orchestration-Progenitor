@@ -1,0 +1,75 @@
+{
+  "core_objective": {
+    "text": "BUILD FACTOR MOMENTUM PORTFOLIO RESEARCH PIPELINE: multi-symbol bar loader, compute momentum and low-vol factor scores cross-sectionally, rank-and-weight portfolio with volatility scaling, walk-forward rebalance simulation, transaction cost model, verified PNL and factor exposure reports. Research only.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 6,
+    "max_step_growth_pct": 25,
+    "output_slug": "factor_momentum_portfolio",
+    "wipe_on_complete": true,
+    "authorized_dirs": ["generated/factor_momentum_portfolio/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Config + multi-symbol loader",
+      "intent": "config.py with UNIVERSE symbols list smoke mode. data_loader.py load_universe_bars() returns MultiIndex DataFrame. sample_data multi-symbol CSVs.",
+      "target_files": ["config.py", "data_loader.py", "sample_data/universe_bars.csv"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "factor-momentum-v1"
+    },
+    {
+      "step_id": "S002",
+      "title": "Factor engine",
+      "intent": "factors.py: momentum_12_1, low_vol_20d, quality proxy from returns vol. compute_factor_scores(df) cross-sectionally z-scored.",
+      "target_files": ["factors.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "factor-momentum-v1"
+    },
+    {
+      "step_id": "S003",
+      "title": "Portfolio constructor",
+      "intent": "portfolio.py: rank weights, vol-target scaling, max position cap, rebalance schedule. simulate_nav(weights, returns).",
+      "target_files": ["portfolio.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "factor-momentum-v1"
+    },
+    {
+      "step_id": "S004",
+      "title": "Walk-forward backtest",
+      "intent": "backtest_pnl.py: expanding train window, OOS rebalance, costs. reports/pnl_report.json with factor exposures.",
+      "target_files": ["backtest_pnl.py", "reports/pnl_report.json", "reports/pnl_report.md"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S003"],
+      "status": "pending",
+      "provenance": "factor-momentum-v1"
+    },
+    {
+      "step_id": "S005",
+      "title": "Tests",
+      "intent": "tests/test_factors.py, tests/test_portfolio.py, tests/test_backtest.py integration smoke.",
+      "target_files": ["tests/test_factors.py", "tests/test_portfolio.py", "tests/test_backtest.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S004"],
+      "status": "pending",
+      "provenance": "factor-momentum-v1"
+    }
+  ],
+  "horizon": { "window": [], "cursor": null, "cursor_locked": false, "wipe_due": false },
+  "budget": { "tokens_used": 0, "token_cap": 2000000, "usd_used": 0.0, "usd_cap": 6.0, "floor_tokens": 100000, "floor_usd": 0.5 },
+  "snapshots": { "last_good_plan": null, "git_ref": null, "horizon_open_ref": null },
+  "strike_ledger": {},
+  "wal": { "intent_to_integrate": null },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": { "current_phase": "P0", "repo_path": "", "index": { "vectors_path": "", "last_build_at": null, "last_consistency_check_at": null, "consistent": null } }
+}

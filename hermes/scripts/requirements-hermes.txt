@@ -1,0 +1,5 @@
+# Hermes pipeline (scripts/setup_index + hermes_orchestrator.py)
+openai>=1.40.0
+numpy>=1.26.0
+cursor-sdk>=0.1.0
+sentence-transformers>=3.0.0

@@ -1,0 +1,11 @@
+{
+  "step_count": 3,
+  "max_step_growth_pct": 25,
+  "authorized_dirs": [
+    "generated/",
+    "generated/simple_rsi_strategy/"
+  ],
+  "objective_hash": "sha256:35bdc686a557e897a62c22a65354d027e270e4ed9de9f1b50c185709829d4ab5",
+  "output_slug": "simple_rsi_strategy",
+  "wipe_on_complete": true
+}

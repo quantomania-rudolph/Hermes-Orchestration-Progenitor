@@ -1,0 +1,7 @@
+{
+  "slug": "stress_cli_log_analyzer",
+  "campaign_ready": true,
+  "has_tests": true,
+  "has_config": true,
+  "hermes_export": true
+}

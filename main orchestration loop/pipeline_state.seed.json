@@ -1,0 +1,80 @@
+{
+  "core_objective": {
+    "text": "BUILD THE HERMES MAIN ORCHESTRATION LOOP: autonomous code generation driven by pipeline_state.json with phase-gated tools, index-grounded context, and Cursor-backed implementation.",
+    "hash": "",
+    "locked": false
+  },
+  "genesis_baseline": {
+    "step_count": 0,
+    "max_step_growth_pct": 25,
+    "authorized_dirs": ["main orchestration loop/", "orchestrator/", "tools/", "docs/"],
+    "objective_hash": ""
+  },
+  "master_plan": [
+    {
+      "step_id": "S001",
+      "title": "Wire index bridge (build_index + consistency checker)",
+      "intent": "Connect T07 to scripts/setup_index/build_index.py and enforce post-merge reindex so RAG matches disk.",
+      "target_files": ["main orchestration loop/tools/context/t07_rag_provisioner.py"],
+      "line_bounds": [0, -1],
+      "depends_on": [],
+      "status": "pending",
+      "provenance": "user-seed"
+    },
+    {
+      "step_id": "S002",
+      "title": "Implement P0 genesis and state journal",
+      "intent": "Ingest seed state, lock objective, capture genesis baseline, initialize WAL and budget.",
+      "target_files": ["main orchestration loop/orchestrator/phases/phase0_genesis.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S001"],
+      "status": "pending",
+      "provenance": "user-seed"
+    },
+    {
+      "step_id": "S003",
+      "title": "Implement master session loop P1-P5",
+      "intent": "Run the semantic pipeline control loop with phase contracts and horizon window.",
+      "target_files": ["main orchestration loop/orchestrator/session.py"],
+      "line_bounds": [0, -1],
+      "depends_on": ["S002"],
+      "status": "pending",
+      "provenance": "user-seed"
+    }
+  ],
+  "horizon": {
+    "window": [],
+    "cursor": null,
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 0,
+    "token_cap": 2000000,
+    "usd_used": 0.0,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "snapshots": {
+    "last_good_plan": null,
+    "git_ref": null,
+    "horizon_open_ref": null
+  },
+  "strike_ledger": {},
+  "wal": {
+    "intent_to_integrate": null
+  },
+  "tool_registry_version": "trv-2026-06-07",
+  "journal": [],
+  "runtime": {
+    "current_phase": "P0",
+    "repo_path": "",
+    "index": {
+      "vectors_path": "",
+      "last_build_at": null,
+      "last_consistency_check_at": null,
+      "consistent": null
+    }
+  }
+}

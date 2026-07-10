@@ -1,0 +1,26 @@
+{
+  "timestamp": 1780986487.6955643,
+  "reason": "Dirty phase contract (T29)",
+  "objective": "BUILD YAML POLICY VALIDATOR CLI: schema for version+rules, severity enum, duplicate id detection, validation JSON report, pytest good/bad fixtures. No external services.",
+  "current_phase": "P5",
+  "horizon": {
+    "window": [
+      "S003",
+      "S004",
+      "S005"
+    ],
+    "cursor": "S003",
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 1500,
+    "token_cap": 2000000,
+    "usd_used": 0.03,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

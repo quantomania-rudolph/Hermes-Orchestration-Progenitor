@@ -1,0 +1,20 @@
+{
+  "fold": 0,
+  "best_params": {
+    "lookback": 30,
+    "hidden_h1": 64,
+    "hidden_h2": 0,
+    "n_layers": 1,
+    "epochs": 5,
+    "dropout_l1": 0.11569319232340314,
+    "dropout_l2": 0.10994731168096124,
+    "lr": 0.0010835794582109016,
+    "weight_decay": 7.392538531872604e-05,
+    "batch_size": 128,
+    "use_skip": true,
+    "pfg_mode": "scheduled",
+    "loss": "huber",
+    "fold_reset": true
+  },
+  "smoke": true
+}

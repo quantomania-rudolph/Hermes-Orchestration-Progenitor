@@ -1,0 +1,26 @@
+{
+  "timestamp": 1780980772.3038223,
+  "reason": "Plan co-verify REJECT: Proposed master_plan matches current plan: 9 v0.4-spec steps, no count or scope change, all targets under authorized generated/lstm_optuna_vault_trader/. S001\u2013S003 green implementations satisfy intents (smoke config, atoms\u2192bars_bt\u2192CSV loader with bar_end derivation and lineage docstring, 546-row sample CSV, shifted RSI/MACD/BB/ATR features with assert_no_leakage, build_sequences+FoldScaler with LOOKBACK+26+20 guard). Pending S004/S005 intents and S003 dependencies align with spec \u00a77\u2013\u00a78. P5 reconcile is identity/SCOPE_CLARIFICATION only.",
+  "objective": "BUILD LSTM+OPTUNA VAULT-EQUITY RESEARCH PIPELINE per PIPELINE_SPEC_lstm_optuna_vault_trader.md v0.4: atomized PIT bars (atoms/bars_bt/CSV fallback), RSI/MACD/Bollinger/ATR signals with strict anti-leakage, LSTM with partial forgetting and residual skip, purged expanding-window K-fold with embargo, Optuna hyperparameter search on train-only inner val, OOS-only trading loop with costs, simulated portfolio, and verified PNL JSON+MD+model_card. Default HERMES_RESEARCH_SMOKE=1 for orchestrator runs. Research only \u2014 no live trading.",
+  "current_phase": "P5",
+  "horizon": {
+    "window": [
+      "S003",
+      "S004",
+      "S005"
+    ],
+    "cursor": "S003",
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 1500,
+    "token_cap": 2000000,
+    "usd_used": 0.03,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

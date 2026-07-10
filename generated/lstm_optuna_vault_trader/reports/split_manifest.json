@@ -1,0 +1,44 @@
+{
+  "n_splits": 2,
+  "min_train_bars": 120,
+  "test_bars": 40,
+  "embargo_bars": 12,
+  "lookback": 30,
+  "total_bars": 524,
+  "folds": [
+    {
+      "fold": 0,
+      "train_count": 90,
+      "test_count": 40,
+      "train_idx_range": [
+        0,
+        89
+      ],
+      "test_idx_range": [
+        120,
+        159
+      ],
+      "train_bar_end_min": "2024-01-02T16:20:00+00:00",
+      "train_bar_end_max": "2024-01-03T17:15:00+00:00",
+      "test_bar_end_min": "2024-01-03T19:50:00+00:00",
+      "test_bar_end_max": "2024-01-04T16:35:00+00:00"
+    },
+    {
+      "fold": 1,
+      "train_count": 142,
+      "test_count": 40,
+      "train_idx_range": [
+        0,
+        141
+      ],
+      "test_idx_range": [
+        172,
+        211
+      ],
+      "train_bar_end_min": "2024-01-02T16:20:00+00:00",
+      "train_bar_end_max": "2024-01-04T15:05:00+00:00",
+      "test_bar_end_min": "2024-01-04T17:40:00+00:00",
+      "test_bar_end_max": "2024-01-04T20:55:00+00:00"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "timestamp": 1780987016.4074876,
+  "reason": "Dirty phase contract (T29)",
+  "objective": "BUILD CLI NGINX LOG ANALYZER: parse access.log fixture, compute status histogram and top paths, argparse CLI emitting JSON summary, pytest verification. No network.",
+  "current_phase": "P5",
+  "horizon": {
+    "window": [
+      "S003",
+      "S004",
+      "S005"
+    ],
+    "cursor": "S003",
+    "cursor_locked": false,
+    "wipe_due": false
+  },
+  "budget": {
+    "tokens_used": 1500,
+    "token_cap": 2000000,
+    "usd_used": 0.03,
+    "usd_cap": 5.0,
+    "floor_tokens": 100000,
+    "floor_usd": 0.5
+  },
+  "strike_ledger": {},
+  "extra": {}
+}

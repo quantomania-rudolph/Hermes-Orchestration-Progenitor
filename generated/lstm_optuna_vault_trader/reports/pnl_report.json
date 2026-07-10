@@ -1,0 +1,138 @@
+{
+  "total_pnl": 0.017574345737610964,
+  "hit_rate": 0.6625,
+  "max_drawdown": -0.01674306094493505,
+  "sharpe": 46.42513033633948,
+  "trade_count": 80,
+  "finite_pnl": true,
+  "oos_bars": 80,
+  "turnover": 8.0,
+  "exposure_pct": 1.0,
+  "bars_in_market": 80,
+  "optuna_best_params": {
+    "0": {
+      "lookback": 30,
+      "hidden_h1": 64,
+      "hidden_h2": 0,
+      "n_layers": 1,
+      "epochs": 5,
+      "dropout_l1": 0.11569319232340314,
+      "dropout_l2": 0.10994731168096124,
+      "lr": 0.0010835794582109016,
+      "weight_decay": 7.392538531872604e-05,
+      "batch_size": 128,
+      "use_skip": true,
+      "pfg_mode": "scheduled",
+      "loss": "huber",
+      "fold_reset": true
+    },
+    "1": {
+      "lookback": 30,
+      "hidden_h1": 128,
+      "hidden_h2": 0,
+      "n_layers": 1,
+      "epochs": 5,
+      "dropout_l1": 0.26989657244414145,
+      "dropout_l2": 0.021252603916542247,
+      "lr": 0.000172564173327919,
+      "weight_decay": 0.00016358262703585998,
+      "batch_size": 128,
+      "use_skip": true,
+      "pfg_mode": "scheduled",
+      "loss": "huber",
+      "fold_reset": true
+    }
+  },
+  "fold_metrics": [
+    {
+      "fold": 0,
+      "train_bars": 90,
+      "test_bars": 40,
+      "best_val_loss": 7.408876263070852e-05,
+      "val_loss_method": "optuna"
+    },
+    {
+      "fold": 1,
+      "train_bars": 142,
+      "test_bars": 40,
+      "best_val_loss": 0.000657412747386843,
+      "val_loss_method": "optuna"
+    }
+  ],
+  "trade_log_summary": {
+    "count": 5,
+    "win_rate": 0.8,
+    "avg_pnl": 0.0034881879284239317
+  },
+  "trade_log": [
+    {
+      "fold_id": 0,
+      "entry_bar_end_utc": "2024-01-03 19:50:00+00:00",
+      "exit_bar_end_utc": "2024-01-04 14:40:00+00:00",
+      "direction": -1,
+      "pnl": 0.00934461106932603,
+      "bars_held": 17
+    },
+    {
+      "fold_id": 0,
+      "entry_bar_end_utc": "2024-01-04 14:45:00+00:00",
+      "exit_bar_end_utc": "2024-01-04 15:40:00+00:00",
+      "direction": 1,
+      "pnl": 0.005273948457124778,
+      "bars_held": 12
+    },
+    {
+      "fold_id": 0,
+      "entry_bar_end_utc": "2024-01-04 15:45:00+00:00",
+      "exit_bar_end_utc": "2024-01-04 16:35:00+00:00",
+      "direction": -1,
+      "pnl": 0.007365542451997798,
+      "bars_held": 11
+    },
+    {
+      "fold_id": 1,
+      "entry_bar_end_utc": "2024-01-04 17:40:00+00:00",
+      "exit_bar_end_utc": "2024-01-04 19:30:00+00:00",
+      "direction": 1,
+      "pnl": -0.0165088278446819,
+      "bars_held": 23
+    },
+    {
+      "fold_id": 1,
+      "entry_bar_end_utc": "2024-01-04 19:35:00+00:00",
+      "exit_bar_end_utc": "2024-01-04 20:55:00+00:00",
+      "direction": -1,
+      "pnl": 0.011965665508352952,
+      "bars_held": 17
+    }
+  ],
+  "symbol": "AAPL",
+  "interval": "5min",
+  "data_source": "auto (atoms\u2192bars_bt\u2192csv fallback chain)",
+  "smoke": true,
+  "oos_only_attestation": true,
+  "adaptive_params": {
+    "n_splits": 2,
+    "min_train_bars": 120,
+    "test_bars": 40,
+    "lookback": 30
+  },
+  "feature_bars": 524,
+  "split_manifest_path": "C:\\Users\\Rudol\\Desktop\\Hermes_Orchestration\\generated\\lstm_optuna_vault_trader\\reports\\split_manifest.json",
+  "optuna_summary_path": "C:\\Users\\Rudol\\Desktop\\Hermes_Orchestration\\generated\\lstm_optuna_vault_trader\\reports\\optuna_summary.json",
+  "periods_per_year": 19656,
+  "methodology": {
+    "leakage_controls": [
+      "L1: features shifted one bar (bar_end <= t-1)",
+      "L3: FoldScaler fit on train fold only",
+      "L4: Optuna inner val on outer train only",
+      "L5: PnL computed on concatenated OOS test folds only",
+      "L7: LSTM hidden state reset at fold boundaries",
+      "L8: purged expanding-window K-fold with embargo"
+    ],
+    "cost_model_bps": {
+      "slippage": 1.0,
+      "spread": 0.5
+    }
+  }
+}

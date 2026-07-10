@@ -1,0 +1,22 @@
+version: "1.0"
+
+rules:
+  - id: network-ingress-restrict
+    severity: low
+    description: Restrict inbound traffic to approved CIDR blocks.
+
+  - id: secrets-rotation
+    severity: medium
+    description: Rotate API keys and credentials on a fixed schedule.
+
+  - id: privileged-access-audit
+    severity: high
+    description: Require MFA and session logging for admin roles.
+
+  - id: data-exfiltration-block
+    severity: critical
+    description: Block outbound transfers of classified data without approval.
+
+  - id: log-retention
+    severity: low
+    description: Retain audit logs for at least 90 days.
